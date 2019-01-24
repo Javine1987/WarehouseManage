@@ -3,9 +3,10 @@ package com.k.javine.warehousemanage.data;
 public class Product {
     private String id;
     private String name;
-    private String size;
+    private int size;
     private String color;
     private String desc;
+    private float price;
 
     public String getId() {
         return id;
@@ -23,11 +24,11 @@ public class Product {
         this.name = name;
     }
 
-    public String getSize() {
+    public int getSize() {
         return size;
     }
 
-    public void setSize(String size) {
+    public void setSize(int size) {
         this.size = size;
     }
 
@@ -45,5 +46,13 @@ public class Product {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
 }

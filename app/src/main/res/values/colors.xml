@@ -3,4 +3,180 @@
     <color name="colorPrimary">#427195</color>
     <color name="colorPrimaryDark">#405F8F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="unclickable_color_bg">#4c000000</color>
+    <color name="darkgray">#a9a9a9</color>
+    <color name="translucent_40_white">#66ffffff</color>
+    <color name="translucent_50_white">#80ffffff</color>
+    <color name="translucent_80_white">#CCffffff</color>
+    <color name="translucent_40_gray">#668E8E8E</color>
+
+    <color name="action_bar_dark_text_color">#99000000</color>
+
+    <!-- 暗灰色 -->
+    <color name="white_30">#4C4C4C</color>
+    <!-- progressbar background -->
+    <color name="progress_bar_bg">#19000000</color>
+
+    <!-- 半透明的黑色 -->
+    <color name="translucent_04_black">#0A000000</color>
+    <color name="translucent_05_black">#0C000000</color>
+    <color name="translucent_08_black">#14000000</color>
+    <color name="translucent_10_black">#19000000</color>
+    <color name="translucent_15_black">#26000000</color>
+    <color name="translucent_20_black">#33000000</color>
+    <color name="translucent_24_black">#3D000000</color>
+    <color name="translucent_30_black">#4C000000</color>
+    <color name="translucent_40_black">#66000000</color>
+    <color name="translucent_50_black">#7F000000</color>
+    <color name="translucent_60_black">#99000000</color>
+    <color name="translucent_70_black">#B2000000</color>
+    <color name="translucent_80_black">#CC000000</color>
+    <color name="translucent_90_black">#e5000000</color>
+
+    <color name="advertise_bg_color">#E5E5E5</color>
+
+    <!-- download text font -->
+    <color name="online_theme_download_title_color">#000000</color>
+    <color name="online_theme_download_summary_color">#7F000000</color>
+
+    <!-- download cancel btn background -->
+
+    <!-- download cancel btn background -->
+
+
+    <!-- 普通黑体字的颜色 -->
+    <color name="normal_black_text_color">#333333</color>
+
+    <!-- 本地壁纸删除数字文字颜色 -->
+    <color name="alert_dialog_text_color">#808080</color>
+
+    <!-- 没有结果提示的文字颜色 -->
+    <color name="no_result_tip_text_color">@color/translucent_40_black</color>
+    <color name="info_gray_color">#808080</color>
+
+    <!-- 列表的大标题文字颜色 -->
+    <!-- 列表的小标题文字颜色 -->
+    <color name="comment_hit_text">#c2c2c2</color>
+    <color name="comment_text_color">#CC000000</color>
+
+    <!-- 主题标题颜色 -->
+    <color name="actvity_back">#f2f2f2</color>
+    <color name="special_description_text_color">#CC000000</color>
+
+    <!-- Common dimen value start -->
+    <color name="main_title_color">#CC000000</color>
+    <color name="main_summary_color">#7F000000</color>
+    <!-- Common dimen value end -->
+
+    <!-- online promotion price color -->
+    <color name="online_promotion_price_color">#FF4A19</color>
+    <!-- online promotion price color -->
+
+
+    <!-- online detail start -->
+    <color name="detail_title_color">#000000</color>
+    <color name="detail_summary_color">#7F000000</color>
+    <color name="detail_score_color">#FCBE00</color>
+    <!-- online detail end -->
+
+    <!-- Theme Info dimen value start -->
+    <color name="theme_info_name_font_color">#CC000000</color>
+    <color name="theme_info_publisher_font_color">#7F000000</color>
+    <color name="btn_text_color">#CCFFFFFF</color>
+    <color name="suspended_theme_tip_bg">#FF4617</color>
+    <!-- Theme Info dimen value end -->
+
+    <!-- comment header progressbar background -->
+    <color name="comment_header_progressbar1_bg">#e54646</color>
+    <color name="comment_header_progressbar2_bg">#ef991f</color>
+    <color name="comment_header_progressbar3_bg">#ffe00f</color>
+    <color name="comment_header_progressbar4_bg">#acde33</color>
+    <color name="comment_header_progressbar5_bg">#51bc21</color>
+
+    <!-- comment reply background -->
+    <color name="comment_reply_background">#0A000000</color>
+    <!-- comment reply background -->
+
+    <color name="col_layout_title_text_color">#000000</color>
+
+    <!-- apply menu item color -->
+    <color name="apply_menu_item_color">#CC000000</color>
+
+    <!-- LockSvreen preview -->
+    <color name="lock_date_foreground">#ffffffff</color>
+    <color name="slide_unlock_screen_text_color">#FFFFFF</color>
+    <!-- LockScreen preview -->
+
+
+    <color name="wallpaper_cp_name_font_color">#7F000000</color>
+
+    <color name="font_item_background_color">#f7f5f4</color>
+
+    <color name="font_item_title_color">#000000</color>
+
+    <!-- common-->
+    <color name="common_card_divider_bg">#f0f0f0</color>
+    <color name="common_tag_title_text_color">#FF000000</color>
+
+    <color name="label_item_view_stroke_gray">#26000000</color>
+
+    <color name="apply_layout_bg_color">#7F000000</color>
+    <color name="apply_anim_layout_bg_color">#d8000000</color>
+    <color name="apply_anim_title_color">#afffffff</color>
+
+    <color name="mz_theme_unenable_btn_color">#b2b2b2</color>
+
+    <!-- 以下颜色和白色组成在线字体页面背景-->
+    <color name="font_online_bg_3">#d6d6d6</color>
+
+    <color name="promotion_bg_color">#E26F41</color>
+    <color name="coupon_dialog_money_text_color">#f2f2f2</color>
+    <color name="photo_select_bg_color">#fafafa</color>
+
+    <!--flyme6 Gradient Color-->
+    <color name="sea_green_end">#21C0CE</color>
+
+    <color name="blue_end">#198DED</color>
+
+    <color name="lime_green_end">#37B44F</color>
+
+    <color name="coral_end">#FDBA2C</color>
+
+    <color name="tomato_end">#FC5B23</color>
+
+    <color name="firebrick_end">#EB1313</color>
+
+    <color name="crimson_end">#E02218</color>
+    <!--end-->
+
+    <!--开机引导页-->
+    <color name="main_text_color_disable">#4c000000</color>
+
+    <!-- 应用管理 -->
+    <color name="user_manager_button_color">#56a3e8</color>
+
+    <color name="lock_screen_poster_operation_txt_color">#99ffffff</color>
+
+    <!-- 积分-->
+    <color name="integration_know_more_txt_color">#ef3e32</color>
+    <color name="integration_rule_color">#7f7f7f</color>
+
+    <!--设置-个性化 -->
+    <color name="export_online_text_color">#04C0CF</color>
+
+    <!-- 开机引导主题色 -->
+    <color name="guide_page_theme_color">#32a5e7</color>
+
+    <!--限时特价标题-->
+    <color name="block_special_discount_title">#d68b5c</color>
+
+    <color name="account_info_layout_bg_color">#EFEFEF</color>
+
+    <color name="coupon_label_text_color">#ffb700</color>
+
+    <color name="detail_common_info_view_bottom_divider_color">#f2f2f2</color>
 </resources>

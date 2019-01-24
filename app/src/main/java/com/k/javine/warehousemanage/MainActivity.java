@@ -1,5 +1,6 @@
 package com.k.javine.warehousemanage;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_stock:
+                Intent intent = new Intent(this, StockActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btn_output:
                 break;
