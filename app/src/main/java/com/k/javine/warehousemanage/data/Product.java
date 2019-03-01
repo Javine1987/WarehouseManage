@@ -1,5 +1,7 @@
 package com.k.javine.warehousemanage.data;
 
+import android.text.TextUtils;
+
 public class Product {
     private String id;
     private String name;
@@ -54,5 +56,16 @@ public class Product {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Product) {
+            return TextUtils.equals(this.id, ((Product) obj).id)
+                    && TextUtils.equals(this.name, ((Product) obj).name)
+                    && this.size ==((Product) obj).size;
+        } else {
+            return super.equals(obj);
+        }
     }
 }

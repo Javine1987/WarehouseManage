@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.btn_output:
+                intent = new Intent(this, ExportActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btn_input:
                 break;

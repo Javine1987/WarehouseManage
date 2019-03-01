@@ -3,7 +3,9 @@ package com.k.javine.warehousemanage.adapter;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
+import com.k.javine.warehousemanage.R;
 import com.k.javine.warehousemanage.data.StockItem;
 
 /**
@@ -11,14 +13,21 @@ import com.k.javine.warehousemanage.data.StockItem;
  * @文件作者 : KuangYu
  * @创建时间 : 19-1-22
  */
-public class StockViewHolder extends RecyclerView.ViewHolder {
+public class StockViewHolder extends BaseViewHolder {
 
     public StockViewHolder(@NonNull View itemView) {
         super(itemView);
     }
 
     public void bindView(StockItem item) {
-
+        TextView idTextView = itemView.findViewById(R.id.tv_id);
+        TextView titleView = itemView.findViewById(R.id.tv_title);
+        TextView countView = itemView.findViewById(R.id.tv_count);
+        TextView descView = itemView.findViewById(R.id.tv_desc);
+        idTextView.setText(item.getId());
+        titleView.setText(item.getName());
+        countView.setText(item.getTotalCount()+"");
+        descView.setText(item.getDesc());
     }
 
 }
