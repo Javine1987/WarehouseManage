@@ -11,4 +11,9 @@
     <style name="ActivityNoTitleTheme" parent="Theme.AppCompat.Light.NoActionBar">
     </style>
 
+    <style name="PopupWindowAnimation" parent="Widget.AppCompat.PopupWindow">
+        <item name="android:windowEnterAnimation">@anim/in_anim</item>
+        <item name="android:windowExitAnimation">@anim/out_anim</item>
+    </style>
+
 </resources>

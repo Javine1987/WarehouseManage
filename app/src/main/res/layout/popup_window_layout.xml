@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/rl_header"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="商品名称"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"/>
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_close_black"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+
+        <TextView
+            android:id="@+id/label_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="库存:"/>
+
+        <TextView
+            android:id="@+id/tv_totle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/label_one"
+            android:layout_marginLeft="10dp"
+            android:text="库存: "/>
+
+        <TextView
+            android:id="@+id/label_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/label_one"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:text="颜色: "/>
+
+        <TextView
+            android:id="@+id/tv_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/label_two"
+            android:layout_marginTop="5dp"
+            android:text="颜色: "/>
+
+        <TextView
+            android:id="@+id/label_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_color"
+            android:textColor="@color/black"
+            android:text="尺寸: "/>
+
+        <TextView
+            android:id="@+id/tv_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/label_three"
+            android:layout_marginTop="5dp"
+            android:text="尺寸: "/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_card_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn_input"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="42dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/white"
+            android:background="@drawable/edit_btn_background"
+            android:text="入库" />
+        <Button
+            android:id="@+id/btn_output"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="42dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:textColor="@color/white"
+            android:background="@drawable/edit_btn_background"
+            android:text="出库" />
+    </LinearLayout>
+
+</LinearLayout>
