@@ -24,6 +24,8 @@
 
         <activity android:name=".StorageActivity" />
 
+        <activity android:name=".ProductActivity" />
+
     </application>
 
 </manifest>
