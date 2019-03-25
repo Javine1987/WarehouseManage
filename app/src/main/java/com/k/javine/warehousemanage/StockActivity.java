@@ -1,5 +1,6 @@
 package com.k.javine.warehousemanage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -25,11 +26,12 @@ import com.k.javine.warehousemanage.data.StockItem;
 /**
  * 库存管理页面
  */
-public class StockActivity extends AppCompatActivity {
+public class StockActivity extends AppCompatActivity implements View.OnClickListener {
 
     private RecyclerView mRecyclerView;
     private StockAdapter mAdapter;
     private PopupWindow mPopupWindow;
+    private View mAddView;
     private View mAnchor;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +40,8 @@ public class StockActivity extends AppCompatActivity {
         setTitle("库存");
         mRecyclerView = findViewById(R.id.list);
         mAnchor = findViewById(R.id.anchor);
+        mAddView = findViewById(R.id.iv_add);
+        mAddView.setOnClickListener(this);
         mAdapter = new StockAdapter(this);
         mAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClickListener<StockViewHolder>() {
             @Override
@@ -101,5 +105,15 @@ public class StockActivity extends AppCompatActivity {
     private void loadData() {
         mAdapter.setData(DataManager.getInstance().getStockItems());
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_add:
+                Intent intent = new Intent(this, AddProductActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }

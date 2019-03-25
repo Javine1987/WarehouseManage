@@ -11,7 +11,7 @@ import java.util.Map;
  * @文件作者 : KuangYu
  * @创建时间 : 19-1-22
  */
-public class StockItem extends Product{
+public class StockItem extends BaseItem{
     private HashMap<String, Integer> colorMap;
     private HashMap<String, Integer> sizeMap;
     private int totalCount;

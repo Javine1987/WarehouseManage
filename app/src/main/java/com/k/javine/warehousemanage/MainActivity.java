@@ -14,7 +14,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btn_stock;
     private Button btn_output;
     private Button btn_input;
-    private Button btn_product;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +25,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_stock = findViewById(R.id.btn_stock);
         btn_output = findViewById(R.id.btn_output);
         btn_input = findViewById(R.id.btn_input);
-        btn_product = findViewById(R.id.btn_product);
         btn_stock.setOnClickListener(this);
         btn_output.setOnClickListener(this);
         btn_input.setOnClickListener(this);
-        btn_product.setOnClickListener(this);
     }
 
     @Override
@@ -46,10 +43,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_input:
                 intent = new Intent(this, StorageActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.btn_product:
-                intent = new Intent(this, ProductActivity.class);
                 startActivity(intent);
                 break;
         }

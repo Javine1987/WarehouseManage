@@ -25,6 +25,7 @@
         <activity android:name=".StorageActivity" />
 
         <activity android:name=".ProductActivity" />
+        <activity android:name=".AddProductActivity" />
 
     </application>
 
