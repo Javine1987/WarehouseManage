@@ -23,11 +23,11 @@ public class StockViewHolder extends BaseViewHolder {
         TextView idTextView = itemView.findViewById(R.id.tv_id);
         TextView titleView = itemView.findViewById(R.id.tv_title);
         TextView countView = itemView.findViewById(R.id.tv_count);
-        TextView descView = itemView.findViewById(R.id.tv_desc);
+        TextView priceView = itemView.findViewById(R.id.tv_price);
         idTextView.setText(item.getId());
         titleView.setText(item.getName());
-        countView.setText(item.getTotalCount()+"");
-        descView.setText(item.getDesc());
+        countView.setText(String.format("%d 件", item.getTotalCount()));
+        priceView.setText(String.format("¥ %s", item.getPrice()));
     }
 
 }

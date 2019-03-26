@@ -9,12 +9,11 @@ import android.text.TextUtils;
  */
 public class BaseItem {
 
-    private String id;
-    private String name;
-    private int size;
-    private String color;
-    private String desc;
-    private float price;
+    protected String id;  // 唯一确定一款商品
+    protected String name;
+    protected String desc;
+    protected float price;
+    protected int totalCount;
 
     public String getId() {
         return id;
@@ -32,20 +31,12 @@ public class BaseItem {
         this.name = name;
     }
 
-    public int getSize() {
-        return size;
+    public int getTotalCount() {
+        return totalCount;
     }
 
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
     }
 
     public String getDesc() {
@@ -68,8 +59,7 @@ public class BaseItem {
     public boolean equals(Object obj) {
         if (obj instanceof BaseItem) {
             return TextUtils.equals(this.id, ((BaseItem) obj).id)
-                    && TextUtils.equals(this.name, ((BaseItem) obj).name)
-                    && this.size ==((BaseItem) obj).size;
+                    && TextUtils.equals(this.name, ((BaseItem) obj).name);
         } else {
             return super.equals(obj);
         }

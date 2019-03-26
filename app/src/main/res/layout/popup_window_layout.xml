@@ -70,22 +70,6 @@
             android:layout_marginTop="5dp"
             android:text="颜色: "/>
 
-        <TextView
-            android:id="@+id/label_three"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_color"
-            android:textColor="@color/black"
-            android:text="尺寸: "/>
-
-        <TextView
-            android:id="@+id/tv_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/label_three"
-            android:layout_marginTop="5dp"
-            android:text="尺寸: "/>
-
     </RelativeLayout>
 
     <LinearLayout

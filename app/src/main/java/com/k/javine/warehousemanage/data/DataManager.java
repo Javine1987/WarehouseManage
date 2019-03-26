@@ -3,6 +3,8 @@ package com.k.javine.warehousemanage.data;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @文件描述 :
@@ -13,6 +15,7 @@ public class DataManager {
 
     private static DataManager mInstance;
     private List<StockItem> mStockItemList = new ArrayList<>();
+    private List<Product> mProductList = new ArrayList<>();
 
     private DataManager() {
 
@@ -33,79 +36,96 @@ public class DataManager {
         if (mStockItemList.size() == 0) {
             StockItem item = new StockItem();
             item.setId("XY-1153");
-            item.setName("欣页");
-            HashMap<String, Integer> tempMap = new HashMap<>();
-            tempMap.put("170", 50);
-            tempMap.put("175", 50);
-            tempMap.put("180", 30);
-            tempMap.put("185", 40);
-            tempMap.put("190", 30);
-            item.setSizeMap(tempMap);
-            tempMap = new HashMap<>();
-            tempMap.put("黑色", 60);
-            tempMap.put("红色", 60);
-            tempMap.put("灰色", 80);
-            item.setColorMap(tempMap);
+            item.setName("欣页1153");
+
+            HashMap<String, TreeMap<String, Integer>> colorSizeMap = new HashMap<>();
+
+            TreeMap<String, Integer> tempMap = new TreeMap<>();
+            tempMap.put("170", 15);
+            tempMap.put("175", 15);
+            tempMap.put("180", 10);
+            tempMap.put("185", 10);
+            tempMap.put("190", 10);
+            colorSizeMap.put("黑色", tempMap);
+
+            tempMap.clear();
+            tempMap.put("170", 15);
+            tempMap.put("175", 15);
+            tempMap.put("180", 10);
+            tempMap.put("185", 10);
+            tempMap.put("190", 10);
+            colorSizeMap.put("红色", tempMap);
+
+            item.setColorSizeMap(colorSizeMap);
             item.setPrice(120.0f);
-            item.setTotalCount(200);
-            item.setTotalMoney(200*120);
             mStockItemList.add(item);
+
             item = new StockItem();
             item.setId("XY-1353");
-            item.setName("欣页");
-            tempMap = new HashMap<>();
-            tempMap.put("170", 60);
-            tempMap.put("175", 50);
-            tempMap.put("180", 30);
-            tempMap.put("185", 30);
-            tempMap.put("190", 30);
-            item.setSizeMap(tempMap);
-            tempMap = new HashMap<>();
-            tempMap.put("黑色", 70);
-            tempMap.put("红色", 70);
-            tempMap.put("灰色", 60);
-            item.setColorMap(tempMap);
+            item.setName("欣页1353");
+            tempMap = new TreeMap<>();
+            tempMap.put("170", 15);
+            tempMap.put("175", 15);
+            tempMap.put("180", 10);
+            tempMap.put("185", 10);
+            tempMap.put("190", 10);
+            colorSizeMap.put("黑色", tempMap);
+
+            tempMap.clear();
+            tempMap.put("170", 15);
+            tempMap.put("175", 15);
+            tempMap.put("180", 10);
+            tempMap.put("185", 10);
+            tempMap.put("190", 10);
+            colorSizeMap.put("红色", tempMap);
+
+            item.setColorSizeMap(colorSizeMap);
             item.setPrice(120.0f);
-            item.setTotalCount(200);
-            item.setTotalMoney(200*120);
+
             mStockItemList.add(item);
             item = new StockItem();
-            item.setId("ZY-1353");
-            item.setName("欣页");
-            tempMap = new HashMap<>();
-            tempMap.put("170", 60);
-            tempMap.put("175", 50);
-            tempMap.put("180", 30);
-            tempMap.put("185", 30);
-            tempMap.put("190", 30);
-            item.setSizeMap(tempMap);
-            tempMap = new HashMap<>();
-            tempMap.put("黑色", 70);
-            tempMap.put("红色", 70);
-            tempMap.put("灰色", 60);
-            item.setColorMap(tempMap);
+            item.setId("ZY-1358");
+            item.setName("欣页1358");
+            tempMap = new TreeMap<>();
+            tempMap.put("170", 15);
+            tempMap.put("175", 15);
+            tempMap.put("180", 10);
+            tempMap.put("185", 10);
+            tempMap.put("190", 10);
+            colorSizeMap.put("黑色", tempMap);
+
+            tempMap.clear();
+            tempMap.put("170", 15);
+            tempMap.put("175", 15);
+            tempMap.put("180", 10);
+            tempMap.put("185", 10);
+            tempMap.put("190", 10);
+            colorSizeMap.put("红色", tempMap);
+
+            item.setColorSizeMap(colorSizeMap);
             item.setPrice(120.0f);
-            item.setTotalCount(200);
-            item.setTotalMoney(200*120);
             mStockItemList.add(item);
             item = new StockItem();
-            item.setId("Zz-1353");
-            item.setName("欣页");
-            tempMap = new HashMap<>();
-            tempMap.put("170", 60);
-            tempMap.put("175", 50);
-            tempMap.put("180", 30);
-            tempMap.put("185", 30);
-            tempMap.put("190", 30);
-            item.setSizeMap(tempMap);
-            tempMap = new HashMap<>();
-            tempMap.put("黑色", 70);
-            tempMap.put("红色", 70);
-            tempMap.put("灰色", 60);
-            item.setColorMap(tempMap);
+            item.setId("Zz-110");
+            item.setName("欣页110");
+            tempMap = new TreeMap<>();
+            tempMap.put("170", 15);
+            tempMap.put("175", 15);
+            tempMap.put("180", 10);
+            tempMap.put("185", 10);
+            tempMap.put("190", 10);
+            colorSizeMap.put("黑色", tempMap);
+
+            tempMap.clear();
+            tempMap.put("170", 15);
+            tempMap.put("175", 15);
+            tempMap.put("180", 10);
+            tempMap.put("185", 10);
+            tempMap.put("190", 10);
+            colorSizeMap.put("红色", tempMap);
+
+            item.setColorSizeMap(colorSizeMap);
             item.setPrice(120.0f);
-            item.setTotalCount(200);
-            item.setTotalMoney(200*120);
             mStockItemList.add(item);
         }
         return mStockItemList;
@@ -117,6 +137,26 @@ public class DataManager {
 
     public void addStockItem(StockItem item) {
         mStockItemList.add(item);
+    }
+
+    public List<Product> getProducts() {
+        if (mProductList.isEmpty()) {
+            Product product = new Product();
+            product.setId("XY-1153");
+            product.setName("欣页");
+            product.setPrice(120.0f);
+            product.setSizes("70,75,80,85,90");
+            product.setColors("黑色, 红色, 白色, 蓝色");
+        }
+        return mProductList;
+    }
+
+    public void delProduct(Product product) {
+        mProductList.remove(product);
+    }
+
+    public void addProduct(Product product) {
+        mProductList.add(product);
     }
 
 }

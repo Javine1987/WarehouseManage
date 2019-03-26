@@ -16,10 +16,10 @@
     <TextView
         android:id="@+id/tv_count"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/online_promotion_price_color"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:text="125"/>
 
@@ -32,11 +32,12 @@
         android:text="db1818"/>
 
     <TextView
-        android:id="@+id/tv_desc"
+        android:id="@+id/tv_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_id"
         android:layout_marginTop="5dp"
-        android:text="库存 80"/>
+        android:textColor="@color/online_promotion_price_color"
+        android:text="80"/>
 
 </RelativeLayout>

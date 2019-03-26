@@ -47,6 +47,8 @@ public class StockActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onItemClick(ViewGroup parent, StockViewHolder holder, int position) {
                 showDetailPage(mAdapter.getItemByPosition(position));
+                StockItem item = mAdapter.getItemByPosition(position);
+                item.setContentJson(item.getContentJson());
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -58,7 +60,7 @@ public class StockActivity extends AppCompatActivity implements View.OnClickList
     private View mContainerView;
     private View mCloseView;
     private TextView mTitleView;
-    private TextView mTotleView, mSizeView, mColorView;
+    private TextView mTotleView, mColorView;
     private Button mBtnEnter, mBtnOutput;
 
     private void showDetailPage(StockItem item) {
@@ -85,7 +87,6 @@ public class StockActivity extends AppCompatActivity implements View.OnClickList
             mBtnOutput = mContainerView.findViewById(R.id.btn_output);
             mTotleView = mContainerView.findViewById(R.id.tv_totle);
             mColorView = mContainerView.findViewById(R.id.tv_color);
-            mSizeView = mContainerView.findViewById(R.id.tv_size);
 
             mCloseView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -98,8 +99,6 @@ public class StockActivity extends AppCompatActivity implements View.OnClickList
         mTitleView.setText(title);
         mTotleView.setText(String.valueOf(item.getTotalCount()));
         mColorView.setText(item.getColorString());
-        mSizeView.setText(item.getSizeString());
-
     }
 
     private void loadData() {
