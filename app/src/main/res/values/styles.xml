@@ -16,4 +16,29 @@
         <item name="android:windowExitAnimation">@anim/out_anim</item>
     </style>
 
+    <style name="LabelTextStyle" parent="android:TextAppearance">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@drawable/label_text_color</item>
+    </style>
+
+    <style name="LauncherAnimation" parent="android:Animation.Activity">
+        <!--搜索被启动时在newTask里面-->
+        <item name="android:taskOpenEnterAnimation">@anim/move_in_enter</item>
+        <item name="android:taskOpenExitAnimation">@anim/move_in_exit</item>
+        <!--退出搜索时动画-->
+        <item name="android:wallpaperOpenEnterAnimation">@anim/main_activity_close_enter</item>
+        <item name="android:wallpaperOpenExitAnimation">@anim/main_activity_close_exit</item>
+        <!--桌面进入搜索动画-->
+        <item name="android:wallpaperCloseEnterAnimation">@anim/move_in_enter</item>
+        <item name="android:wallpaperCloseExitAnimation">@anim/move_in_exit</item>
+
+        <item name="android:taskToFrontEnterAnimation">@anim/move_in_enter</item>
+        <item name="android:taskToFrontExitAnimation">@anim/move_in_exit</item>
+
+        <item name="android:activityOpenEnterAnimation">@anim/move_in_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/move_in_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/main_activity_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/main_activity_close_exit</item>
+    </style>
+
 </resources>

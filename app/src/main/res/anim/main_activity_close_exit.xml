@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillEnabled="true"
+    android:fillAfter="true"
+    android:detachWallpaper="true">
+    <translate
+        android:duration="420"
+        android:fromYDelta="0"
+        android:toYDelta="200"
+        android:interpolator="@anim/main_activity_close_exit_translation"/>
+    <alpha
+        android:duration="150"
+        android:startOffset="50"
+        android:fromAlpha="1"
+        android:toAlpha="0"
+        android:interpolator="@anim/main_activity_close_exit_alpha"/>
+</set>

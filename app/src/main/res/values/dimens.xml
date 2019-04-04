@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="common_margin">16dp</dimen>
+
+    <dimen name="label_item_margin">8dp</dimen>
+    <dimen name="label_item_min_width">45dp</dimen>
+    <dimen name="label_item_height">25dp</dimen>
+</resources>

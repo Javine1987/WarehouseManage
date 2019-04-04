@@ -32,14 +32,12 @@ public class StockActivity extends AppCompatActivity implements View.OnClickList
     private StockAdapter mAdapter;
     private PopupWindow mPopupWindow;
     private View mAddView;
-    private View mAnchor;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock);
         setTitle("库存");
         mRecyclerView = findViewById(R.id.list);
-        mAnchor = findViewById(R.id.anchor);
         mAddView = findViewById(R.id.iv_add);
         mAddView.setOnClickListener(this);
         mAdapter = new StockAdapter(this);

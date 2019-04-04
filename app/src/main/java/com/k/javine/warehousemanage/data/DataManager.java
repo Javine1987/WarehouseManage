@@ -146,7 +146,7 @@ public class DataManager {
             product.setName("欣页");
             product.setPrice(120.0f);
             product.setSizes("70,75,80,85,90");
-            product.setColors("黑色, 红色, 白色, 蓝色");
+            product.setColors("黑色,红色,白色,蓝色");
         }
         return mProductList;
     }
