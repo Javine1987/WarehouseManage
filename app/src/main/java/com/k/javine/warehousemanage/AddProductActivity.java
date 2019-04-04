@@ -65,7 +65,6 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
             mColorContainer = LayoutInflater.from(this).inflate(R.layout.popup_choose_layout, null);
             mColorChooser = mColorContainer.findViewById(R.id.labelView);
             mColorChooser.addAllLabels(ConfigData.getAllColorOptions());
-            mColorChooser.addAllLabels(ConfigData.getAllColorOptions());
             mColorContainer.findViewById(R.id.iv_close).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
