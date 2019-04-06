@@ -52,6 +52,7 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
                 showColorWindow();
                 break;
             case R.id.tv_choose_size:
+                showSizeWindow();
                 break;
             case R.id.btn_confirm:
                 saveProduct();
@@ -77,7 +78,20 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void showSizeWindow() {
-
+        mPopupWindow = getPopupWindow();
+        if (mSizeContainer == null) {
+            mSizeContainer = LayoutInflater.from(this).inflate(R.layout.popup_choose_layout, null);
+            mSizeChooser = mSizeContainer.findViewById(R.id.labelView);
+            mSizeChooser.addAllLabels(ConfigData.getAllSizeOptions());
+            mSizeContainer.findViewById(R.id.iv_close).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPopupWindow.dismiss();
+                }
+            });
+        }
+        mPopupWindow.setContentView(mSizeContainer);
+        mPopupWindow.showAtLocation(findViewById(R.id.rootView), Gravity.BOTTOM, 0 , 0);
     }
 
     private PopupWindow getPopupWindow() {
