@@ -34,7 +34,7 @@ public class LabelChooseView extends FlexboxLayout {
     private ViewGroup.MarginLayoutParams mChildMarginParams;
     private int mChildMinWidth;
 
-    private AlertDialog mAddDialog;
+    private AlertDialog mAddDialog, mDelDialog;
     private EditText mAddEditText;
 
     private OnLabelChangeListener mChangeListener;
@@ -85,10 +85,10 @@ public class LabelChooseView extends FlexboxLayout {
     public void addLabelItem(String labelName, boolean isSelected) {
         TextView textView = getLabelItemView(labelName, R.style.LabelTextStyle);
         textView.setBackgroundResource(R.drawable.label_item_background);
+        textView.setOnLongClickListener(mLongClickListener);
         textView.setSelected(isSelected);
 
         int index = getChildCount() > 0 ? getChildCount() - 1 : 0; //最后一个item是新增入口
-        Log.d("Javine", "add item index = " + index);
         addView(textView, index, mChildMarginParams);
     }
 
@@ -122,6 +122,16 @@ public class LabelChooseView extends FlexboxLayout {
             } else {
                 v.setSelected(!v.isSelected());
             }
+        }
+    };
+
+    private OnLongClickListener mLongClickListener = new OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            if (v instanceof TextView) {
+                showDelItemDialog((TextView) v);
+            }
+            return true;
         }
     };
 
@@ -161,6 +171,25 @@ public class LabelChooseView extends FlexboxLayout {
                     }
                 })
                 .create();
+    }
+
+    private void showDelItemDialog(final TextView itemView) {
+
+        final String labelName = itemView.getText().toString();
+        mDelDialog = new AlertDialog.Builder(getContext())
+                .setTitle(getResources().getString(R.string.del_label))
+                .setMessage(labelName)
+                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (mChangeListener != null) {
+                            mChangeListener.onDeleteLabel(labelName);
+                        }
+                        removeView(itemView);
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
     }
 
     public String getSelectedItems() {

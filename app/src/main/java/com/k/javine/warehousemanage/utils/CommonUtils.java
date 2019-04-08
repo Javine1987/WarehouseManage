@@ -27,4 +27,9 @@ public class CommonUtils {
     public static int getDimension(Context context, int id) {
         return (int) context.getResources().getDimension(id);
     }
+
+    public static String generateProductId(String productName) {
+        // TODO: 19-4-8 根据名称生成id: 汉字取拼音首字母+其他字符
+        return "XXX";
+    }
 }
