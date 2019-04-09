@@ -1,5 +1,6 @@
 package com.k.javine.warehousemanage;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
@@ -65,6 +67,7 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void showColorWindow() {
+        hideInputMethod();
         mPopupWindow = getPopupWindow();
         if (mColorContainer == null) {
             mColorContainer = LayoutInflater.from(this).inflate(R.layout.popup_choose_layout, null);
@@ -90,6 +93,7 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void showSizeWindow() {
+        hideInputMethod();
         mPopupWindow = getPopupWindow();
         if (mSizeContainer == null) {
             mSizeContainer = LayoutInflater.from(this).inflate(R.layout.popup_choose_layout, null);
@@ -112,6 +116,14 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
         }
         mPopupWindow.setContentView(mSizeContainer);
         mPopupWindow.showAtLocation(findViewById(R.id.rootView), Gravity.BOTTOM, 0 , 0);
+    }
+
+    private void hideInputMethod() {
+        InputMethodManager inputManager = (InputMethodManager) getApplicationContext().getSystemService(Context
+                .INPUT_METHOD_SERVICE);
+        if (inputManager != null) {
+            inputManager.hideSoftInputFromWindow(mChooseColor.getWindowToken(), 0);
+        }
     }
 
     private PopupWindow getPopupWindow() {

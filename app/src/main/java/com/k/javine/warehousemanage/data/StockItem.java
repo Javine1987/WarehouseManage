@@ -1,6 +1,12 @@
 package com.k.javine.warehousemanage.data;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -69,6 +75,26 @@ public class StockItem extends BaseItem{
         contentJson = generateContentJsonStr();
     }
 
+    public void setColorSizeOptions(String colorOptions, String sizeOptions) {
+        if (colorOptions == null || sizeOptions == null) {
+            return;
+        }
+
+        colorMap = new HashMap<>();
+        colorSizeMap = new HashMap<>();
+        TreeMap<String, Integer> sizeMap = new TreeMap<>();
+        String[] sizeArray = sizeOptions.split(",");
+        for (String size : sizeArray) {
+            sizeMap.put(size, 0);
+        }
+
+        String[] colorArray = colorOptions.split(",");
+        for (String color : colorArray) {
+            colorMap.put(color, 0);
+            colorSizeMap.put(color, new TreeMap<String, Integer>(sizeMap));
+        }
+    }
+
     private Integer getMapValueCount(Map<String, Integer> map) {
         Integer result = 0;
         for (Integer value : map.values()) {
@@ -93,10 +119,10 @@ public class StockItem extends BaseItem{
             StringBuilder colorBuilder = new StringBuilder();
             for (Map.Entry<String, Integer> entry : colorMap.entrySet()) {
                 if (entry.getValue() > 0) {
-                    colorBuilder.append(entry.getKey())
+                    colorBuilder.append("  ").append(entry.getKey())
                             .append(" :  ")
                             .append(entry.getValue())
-                            .append("\n\n");
+                            .append("\n");
                     colorBuilder.append(getSizeString(colorSizeMap.get(entry.getKey())));
                 }
             }
@@ -108,12 +134,10 @@ public class StockItem extends BaseItem{
     private String getSizeString(Map<String, Integer> sizeMap) {
         StringBuilder sizeBuilder = new StringBuilder();
         for (Map.Entry<String, Integer> entry : sizeMap.entrySet()) {
-            if (entry.getValue() > 0) {
-                sizeBuilder.append(entry.getKey())
-                        .append(" : ")
-                        .append(entry.getValue())
-                        .append(", ");
-            }
+            sizeBuilder.append("    ").append(entry.getKey())
+                    .append(" : ")
+                    .append(entry.getValue())
+                    .append("\n");
         }
         sizeBuilder.append("\n\n");
         return sizeBuilder.toString();

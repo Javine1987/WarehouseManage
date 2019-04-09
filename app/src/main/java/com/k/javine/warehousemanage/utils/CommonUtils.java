@@ -24,6 +24,10 @@ public class CommonUtils {
         return (int) (dp * scale + 0.5f);
     }
 
+    public static int getScreenHeight(Context context) {
+        return context.getResources().getDisplayMetrics().heightPixels;
+    }
+
     public static int getDimension(Context context, int id) {
         return (int) context.getResources().getDimension(id);
     }
