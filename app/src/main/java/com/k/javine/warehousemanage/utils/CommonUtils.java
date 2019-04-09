@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.promeg.pinyinhelper.Pinyin;
+
 /**
  * @文件描述 :
  * @文件作者 : KuangYu
@@ -33,7 +35,12 @@ public class CommonUtils {
     }
 
     public static String generateProductId(String productName) {
-        // TODO: 19-4-8 根据名称生成id: 汉字取拼音首字母+其他字符
-        return "XXX";
+        String pinyin = Pinyin.toPinyin(productName, "/");
+        String[] array = pinyin.split("/");
+        StringBuilder idBuilder = new StringBuilder();
+        for (String anArray : array) {
+            idBuilder.append(anArray.charAt(0));
+        }
+        return idBuilder.toString();
     }
 }

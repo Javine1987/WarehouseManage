@@ -27,7 +27,7 @@ import com.k.javine.warehousemanage.utils.CommonUtils;
 /**
  * 库存管理页面
  */
-public class StockActivity extends AppCompatActivity implements View.OnClickListener {
+public class StockActivity extends BaseActivity implements View.OnClickListener {
 
     private RecyclerView mRecyclerView;
     private StockAdapter mAdapter;
@@ -101,7 +101,7 @@ public class StockActivity extends AppCompatActivity implements View.OnClickList
         String title = item.getName() + " - " + item.getId();
         mTitleView.setText(title);
         mTotleView.setText(String.valueOf(item.getTotalCount()));
-        mColorView.setText(item.getColorString());
+        mColorView.setText(item.getColorString(this));
     }
 
     private void loadData() {

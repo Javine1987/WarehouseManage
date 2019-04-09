@@ -27,7 +27,7 @@ import com.k.javine.warehousemanage.widget.LabelChooseView;
  * @文件作者 : KuangYu
  * @创建时间 : 19-3-25
  */
-public class AddProductActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddProductActivity extends BaseActivity implements View.OnClickListener {
     EditText mNameEdit, mPriceEdit;
     TextView mChooseColor, mChooseSize;
     Button mConfirmBtn;

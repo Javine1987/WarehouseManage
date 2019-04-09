@@ -1,5 +1,6 @@
 package com.k.javine.warehousemanage.data;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.Spannable;
@@ -11,6 +12,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.k.javine.warehousemanage.utils.CommonUtils;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -27,8 +29,7 @@ public class StockItem extends BaseItem{
     private HashMap<String, Integer> colorMap;
     private HashMap<String, TreeMap<String, Integer>> colorSizeMap;
     private float totalMoney;
-    private String sizeString;
-    private String colorString;
+    private SpannableStringBuilder colorString;
     private String contentJson; // 用于保存到数据库: 该商品的颜色分布,尺寸分布
 
     public float getTotalMoney() {
@@ -114,30 +115,38 @@ public class StockItem extends BaseItem{
         return gson.fromJson(jsonStr, type);
     }
 
-    public String getColorString() {
+    public SpannableStringBuilder getColorString(Context context) {
         if (colorString == null) {
-            StringBuilder colorBuilder = new StringBuilder();
+            SpannableStringBuilder colorBuilder = new SpannableStringBuilder();
             for (Map.Entry<String, Integer> entry : colorMap.entrySet()) {
-                if (entry.getValue() > 0) {
-                    colorBuilder.append("  ").append(entry.getKey())
-                            .append(" :  ")
-                            .append(entry.getValue())
-                            .append("\n");
-                    colorBuilder.append(getSizeString(colorSizeMap.get(entry.getKey())));
-                }
+                int startOffset = colorBuilder.length();
+                colorBuilder.append("  ").append(entry.getKey())
+                        .append(" :  ")
+                        .append(String.valueOf(entry.getValue()))
+                        .append("\n");
+                colorBuilder.setSpan(new ForegroundColorSpan(Color.BLACK), startOffset, colorBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                colorBuilder.setSpan(new AbsoluteSizeSpan(CommonUtils.Dp2Px(context, 16)), startOffset, colorBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                colorBuilder.append(getSizeString(colorSizeMap.get(entry.getKey())));
             }
-            colorString = colorBuilder.toString();
+            colorString = colorBuilder;
         }
         return colorString;
     }
 
     private String getSizeString(Map<String, Integer> sizeMap) {
         StringBuilder sizeBuilder = new StringBuilder();
+        int i = 0;
         for (Map.Entry<String, Integer> entry : sizeMap.entrySet()) {
             sizeBuilder.append("    ").append(entry.getKey())
                     .append(" : ")
-                    .append(entry.getValue())
-                    .append("\n");
+                    .append(entry.getValue());
+
+            if (i % 2 == 0) {
+                sizeBuilder.append("    ");
+            } else {
+                sizeBuilder.append("\n");
+            }
+            i++;
         }
         sizeBuilder.append("\n\n");
         return sizeBuilder.toString();

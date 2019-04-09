@@ -5,6 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 /**
  * 入库页面
  */
-public class StorageActivity extends AppCompatActivity {
+public class StorageActivity extends BaseActivity {
 
 }
