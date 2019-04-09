@@ -135,6 +135,7 @@
     <color name="font_online_bg_3">#d6d6d6</color>
 
     <color name="promotion_bg_color">#E26F41</color>
+    <color name="promotion_bg_color_pressed">#E05F61</color>
     <color name="coupon_dialog_money_text_color">#f2f2f2</color>
     <color name="photo_select_bg_color">#fafafa</color>
 

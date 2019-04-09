@@ -1,19 +1,25 @@
 package com.k.javine.warehousemanage;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.k.javine.warehousemanage.data.ConfigData;
+import com.k.javine.warehousemanage.data.DataManager;
+import com.k.javine.warehousemanage.data.Product;
+import com.k.javine.warehousemanage.utils.CommonUtils;
 import com.k.javine.warehousemanage.widget.LabelChooseView;
 
 /**
@@ -21,7 +27,7 @@ import com.k.javine.warehousemanage.widget.LabelChooseView;
  * @文件作者 : KuangYu
  * @创建时间 : 19-3-25
  */
-public class AddProductActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddProductActivity extends BaseActivity implements View.OnClickListener {
     EditText mNameEdit, mPriceEdit;
     TextView mChooseColor, mChooseSize;
     Button mConfirmBtn;
@@ -33,7 +39,7 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_product);
-        setTitle("新建商品");
+        setTitle(R.string.title_add_product);
         mNameEdit = findViewById(R.id.input_name);
         mPriceEdit = findViewById(R.id.input_price);
         mChooseColor = findViewById(R.id. tv_choose_color);
@@ -52,6 +58,7 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
                 showColorWindow();
                 break;
             case R.id.tv_choose_size:
+                showSizeWindow();
                 break;
             case R.id.btn_confirm:
                 saveProduct();
@@ -60,9 +67,18 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void showColorWindow() {
+        hideInputMethod();
         mPopupWindow = getPopupWindow();
         if (mColorContainer == null) {
             mColorContainer = LayoutInflater.from(this).inflate(R.layout.popup_choose_layout, null);
+            ((TextView)mColorContainer.findViewById(R.id.tv_title)).setText(R.string.choose_color);
+            mColorContainer.findViewById(R.id.btn_choose_confirm).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mChooseColor.setText(mColorChooser.getSelectedItems());
+                    mPopupWindow.dismiss();
+                }
+            });
             mColorChooser = mColorContainer.findViewById(R.id.labelView);
             mColorChooser.addAllLabels(ConfigData.getAllColorOptions());
             mColorContainer.findViewById(R.id.iv_close).setOnClickListener(new View.OnClickListener() {
@@ -77,7 +93,37 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void showSizeWindow() {
+        hideInputMethod();
+        mPopupWindow = getPopupWindow();
+        if (mSizeContainer == null) {
+            mSizeContainer = LayoutInflater.from(this).inflate(R.layout.popup_choose_layout, null);
+            ((TextView)mSizeContainer.findViewById(R.id.tv_title)).setText(R.string.choose_size);
+            mSizeContainer.findViewById(R.id.btn_choose_confirm).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mChooseSize.setText(mSizeChooser.getSelectedItems());
+                    mPopupWindow.dismiss();
+                }
+            });
+            mSizeChooser = mSizeContainer.findViewById(R.id.labelView);
+            mSizeChooser.addAllLabels(ConfigData.getAllSizeOptions());
+            mSizeContainer.findViewById(R.id.iv_close).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPopupWindow.dismiss();
+                }
+            });
+        }
+        mPopupWindow.setContentView(mSizeContainer);
+        mPopupWindow.showAtLocation(findViewById(R.id.rootView), Gravity.BOTTOM, 0 , 0);
+    }
 
+    private void hideInputMethod() {
+        InputMethodManager inputManager = (InputMethodManager) getApplicationContext().getSystemService(Context
+                .INPUT_METHOD_SERVICE);
+        if (inputManager != null) {
+            inputManager.hideSoftInputFromWindow(mChooseColor.getWindowToken(), 0);
+        }
     }
 
     private PopupWindow getPopupWindow() {
@@ -92,6 +138,27 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void saveProduct() {
-        String colorString = mColorChooser.getSelectedItems();
+        if (checkInputInvalid(mNameEdit) || checkInputInvalid(mPriceEdit)
+                || checkInputInvalid(mChooseColor) || checkInputInvalid(mChooseSize)) {
+            return;
+        }
+        Product product = new Product();
+        product.setName(mNameEdit.getText().toString());
+        product.setId(CommonUtils.generateProductId(product.getName()));
+        product.setPrice(Float.valueOf(mPriceEdit.getText().toString()));
+        product.setColors(mChooseColor.getText().toString());
+        product.setSizes(mChooseSize.getText().toString());
+        DataManager.getInstance().addProduct(product);
+        finish();
+        Toast.makeText(this,"商品添加成功", Toast.LENGTH_LONG).show();
+    }
+
+    private boolean checkInputInvalid(TextView view) {
+        boolean isInvalid = false;
+        if (TextUtils.isEmpty(view.getText().toString().trim())) {
+            isInvalid = true;
+            Toast.makeText(this,"请" + view.getHint(), Toast.LENGTH_SHORT).show();
+        }
+        return isInvalid;
     }
 }

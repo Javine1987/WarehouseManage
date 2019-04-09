@@ -13,7 +13,7 @@ import com.k.javine.warehousemanage.data.DataManager;
 /**
  * 出库页面
  */
-public class ExportActivity extends AppCompatActivity {
+public class ExportActivity extends BaseActivity {
     RecyclerView recyclerView;
     ExportAdapter mAdapter;
     @Override

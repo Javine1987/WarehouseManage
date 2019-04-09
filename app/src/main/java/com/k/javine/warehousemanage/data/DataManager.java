@@ -157,6 +157,19 @@ public class DataManager {
 
     public void addProduct(Product product) {
         mProductList.add(product);
+        if (mStockItemList != null) {
+            mStockItemList.add(convertProduct2StockItem(product));
+        }
+    }
+
+    public StockItem convertProduct2StockItem(Product product) {
+        StockItem stockItem = new StockItem();
+        stockItem.setName(product.getName());
+        stockItem.setPrice(product.getPrice());
+        stockItem.setId(product.getId());
+        stockItem.setTotalCount(0);
+        stockItem.setColorSizeOptions(product.getColors(), product.getSizes());
+        return stockItem;
     }
 
 }

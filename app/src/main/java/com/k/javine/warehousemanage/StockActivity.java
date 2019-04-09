@@ -22,11 +22,12 @@ import com.k.javine.warehousemanage.adapter.StockAdapter;
 import com.k.javine.warehousemanage.adapter.StockViewHolder;
 import com.k.javine.warehousemanage.data.DataManager;
 import com.k.javine.warehousemanage.data.StockItem;
+import com.k.javine.warehousemanage.utils.CommonUtils;
 
 /**
  * 库存管理页面
  */
-public class StockActivity extends AppCompatActivity implements View.OnClickListener {
+public class StockActivity extends BaseActivity implements View.OnClickListener {
 
     private RecyclerView mRecyclerView;
     private StockAdapter mAdapter;
@@ -45,13 +46,16 @@ public class StockActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onItemClick(ViewGroup parent, StockViewHolder holder, int position) {
                 showDetailPage(mAdapter.getItemByPosition(position));
-                StockItem item = mAdapter.getItemByPosition(position);
-                item.setContentJson(item.getContentJson());
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         loadData();
     }
 
@@ -79,6 +83,7 @@ public class StockActivity extends AppCompatActivity implements View.OnClickList
         if (mContainerView == null) {
             mContainerView = LayoutInflater.from(this).inflate(R.layout.popup_window_layout, null);
             mPopupWindow.setContentView(mContainerView);
+            mPopupWindow.setHeight(2*CommonUtils.getScreenHeight(this)/3);
             mCloseView = mContainerView.findViewById(R.id.iv_close);
             mTitleView = mContainerView.findViewById(R.id.tv_title);
             mBtnEnter = mContainerView.findViewById(R.id.btn_input);
@@ -96,7 +101,7 @@ public class StockActivity extends AppCompatActivity implements View.OnClickList
         String title = item.getName() + " - " + item.getId();
         mTitleView.setText(title);
         mTotleView.setText(String.valueOf(item.getTotalCount()));
-        mColorView.setText(item.getColorString());
+        mColorView.setText(item.getColorString(this));
     }
 
     private void loadData() {

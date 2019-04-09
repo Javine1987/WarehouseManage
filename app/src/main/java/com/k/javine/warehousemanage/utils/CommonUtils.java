@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.promeg.pinyinhelper.Pinyin;
+
 /**
  * @文件描述 :
  * @文件作者 : KuangYu
@@ -24,7 +26,21 @@ public class CommonUtils {
         return (int) (dp * scale + 0.5f);
     }
 
+    public static int getScreenHeight(Context context) {
+        return context.getResources().getDisplayMetrics().heightPixels;
+    }
+
     public static int getDimension(Context context, int id) {
         return (int) context.getResources().getDimension(id);
+    }
+
+    public static String generateProductId(String productName) {
+        String pinyin = Pinyin.toPinyin(productName, "/");
+        String[] array = pinyin.split("/");
+        StringBuilder idBuilder = new StringBuilder();
+        for (String anArray : array) {
+            idBuilder.append(anArray.charAt(0));
+        }
+        return idBuilder.toString();
     }
 }

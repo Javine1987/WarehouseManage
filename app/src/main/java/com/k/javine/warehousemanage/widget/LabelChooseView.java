@@ -1,10 +1,17 @@
 package com.k.javine.warehousemanage.widget;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.flexbox.FlexWrap;
@@ -22,8 +29,20 @@ import java.util.List;
  */
 public class LabelChooseView extends FlexboxLayout {
 
+    private static final String ADD_KEY = "add";
+
     private ViewGroup.MarginLayoutParams mChildMarginParams;
     private int mChildMinWidth;
+
+    private AlertDialog mAddDialog, mDelDialog;
+    private EditText mAddEditText;
+
+    private OnLabelChangeListener mChangeListener;
+
+    public interface OnLabelChangeListener {
+        void onAddLabel(String label);
+        void onDeleteLabel(String label);
+    }
 
     public LabelChooseView(Context context) {
         super(context);
@@ -48,19 +67,41 @@ public class LabelChooseView extends FlexboxLayout {
         int margin = CommonUtils.getDimension(getContext(), R.dimen.label_item_margin);
         mChildMarginParams.setMargins(margin, margin, margin, margin);
         mChildMinWidth = CommonUtils.getDimension(getContext(), R.dimen.label_item_min_width);
-        // TODO: 19-4-4 需要有个默认item,用来让用户添加颜色
+        // 19-4-4 需要有个默认item,用来让用户添加颜色
+        TextView addItemView = getLabelItemView(getResources().getString(R.string.add_label), R.style.LabelAddStyle);
+        addItemView.setTag(ADD_KEY);
+        addItemView.setBackgroundResource(R.drawable.label_item_add_background);
+        addView(addItemView, mChildMarginParams);
+    }
+
+    public void setOnLabelChangeListener(OnLabelChangeListener listener) {
+        mChangeListener = listener;
     }
 
     public void addLabelItem(String labelName) {
+        addLabelItem(labelName, false);
+    }
+
+    public void addLabelItem(String labelName, boolean isSelected) {
+        TextView textView = getLabelItemView(labelName, R.style.LabelTextStyle);
+        textView.setBackgroundResource(R.drawable.label_item_background);
+        textView.setOnLongClickListener(mLongClickListener);
+        textView.setSelected(isSelected);
+
+        int index = getChildCount() > 0 ? getChildCount() - 1 : 0; //最后一个item是新增入口
+        addView(textView, index, mChildMarginParams);
+    }
+
+    @NonNull
+    private TextView getLabelItemView(String labelName, int styleId) {
         TextView textView = new TextView(getContext());
         textView.setText(labelName);
         textView.setGravity(Gravity.CENTER);
         textView.setMinWidth(mChildMinWidth);
         textView.setPadding(15, 5, 15, 5);
-        textView.setTextAppearance(R.style.LabelTextStyle);
-        textView.setBackgroundResource(R.drawable.label_item_background);
+        textView.setTextAppearance(styleId);
         textView.setOnClickListener(mItemClickListener);
-        addView(textView, mChildMarginParams);
+        return textView;
     }
 
     public void addAllLabels(List<String> labelList) {
@@ -76,9 +117,80 @@ public class LabelChooseView extends FlexboxLayout {
     private OnClickListener mItemClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            v.setSelected(!v.isSelected());
+            if (v.getTag() != null && TextUtils.equals((String) v.getTag(), ADD_KEY)) {
+                showAddItemDialog();
+            } else {
+                v.setSelected(!v.isSelected());
+            }
         }
     };
+
+    private OnLongClickListener mLongClickListener = new OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            if (v instanceof TextView) {
+                showDelItemDialog((TextView) v);
+            }
+            return true;
+        }
+    };
+
+    private void showAddItemDialog() {
+
+        if (mAddDialog == null) {
+            initAddDialog();
+        }
+        mAddDialog.show();
+    }
+
+    private void initAddDialog() {
+        View container = LayoutInflater.from(getContext()).inflate(R.layout.dialog_input_text_layout, null);
+        mAddEditText = container.findViewById(R.id.edit_add_label);
+
+        mAddDialog = new AlertDialog.Builder(getContext())
+                .setTitle(R.string.add_label)
+                .setView(container)
+                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String label = mAddEditText.getText().toString();
+                        if (!TextUtils.isEmpty(label)) {
+                            addLabelItem(label, true);
+                            // TODO: 19-4-6 需要持久保存用户新增的选项
+                            if (mChangeListener != null) {
+                                mChangeListener.onAddLabel(label);
+                            }
+
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+    }
+
+    private void showDelItemDialog(final TextView itemView) {
+
+        final String labelName = itemView.getText().toString();
+        mDelDialog = new AlertDialog.Builder(getContext())
+                .setTitle(getResources().getString(R.string.del_label))
+                .setMessage(labelName)
+                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (mChangeListener != null) {
+                            mChangeListener.onDeleteLabel(labelName);
+                        }
+                        removeView(itemView);
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+    }
 
     public String getSelectedItems() {
         int size = getChildCount();

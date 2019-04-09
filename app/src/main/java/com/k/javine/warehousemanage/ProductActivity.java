@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
  * @文件作者 : KuangYu
  * @创建时间 : 19-3-22
  */
-public class ProductActivity extends AppCompatActivity{
+public class ProductActivity extends BaseActivity{
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
