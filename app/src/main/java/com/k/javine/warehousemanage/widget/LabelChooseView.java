@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +55,7 @@ public class LabelChooseView extends FlexboxLayout {
     public interface OnLabelChangeListener {
         void onAddLabel(String label);
         void onDeleteLabel(String label);
+        void onUnselectLabel(View labelView);
     }
 
     public interface OnSingleLabelSelectedListener {
@@ -160,6 +160,20 @@ public class LabelChooseView extends FlexboxLayout {
         }
     }
 
+    public void setSelectedLabels(String labels) {
+        String[] labelArray = labels.split(",");
+        int count = getChildCount();
+
+        for (String label : labelArray) {
+            for (int i=0; i < count; i++) {
+                TextView child = (TextView) getChildAt(i);
+                if (TextUtils.equals(label, child.getText())) {
+                    child.setSelected(true);
+                }
+            }
+        }
+    }
+
     private OnClickListener mItemClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -167,7 +181,11 @@ public class LabelChooseView extends FlexboxLayout {
                 if (v.getTag() != null && TextUtils.equals((String) v.getTag(), ADD_KEY)) {
                     showAddItemDialog();
                 } else {
+                    // 19-4-10 修改选项时，改变选项可能改变库存，需要提示用户
                     v.setSelected(!v.isSelected());
+                    if (!v.isSelected() && mChangeListener != null) {
+                        mChangeListener.onUnselectLabel(v);
+                    }
                 }
             } else if (mSelectMode == SelectMode.MODE_SINGLE){
                 if (mLastSelectedView != v && v instanceof TextView) {

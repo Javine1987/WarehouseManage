@@ -53,12 +53,16 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mRecyclerView.setAdapter(mAdapter);
+        loadData();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        loadData();
+        if (DataManager.getInstance().isStockModify()) {
+            loadData();
+            mPopupWindow.dismiss();
+        }
     }
 
     private View mContainerView;
@@ -80,7 +84,7 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
     }
 
 
-    private void updateWindowContent(StockItem item) {
+    private void updateWindowContent(final StockItem item) {
         if (mContainerView == null) {
             mContainerView = LayoutInflater.from(this).inflate(R.layout.popup_window_layout, null);
             mPopupWindow.setContentView(mContainerView);
@@ -103,8 +107,10 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
             mModifyView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO: 19-4-10 跳转到AddProductActivity修改产品属性,或者删除商品
-
+                    Intent intent = new Intent(StockActivity.this, AddProductActivity.class);
+                    DataManager.getInstance().setTempStockItem(item);
+                    intent.putExtra("isModify", true);
+                    startActivity(intent);
                 }
             });
         }

@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">库存管理</string>
     <string name="title_add_product">新建商品</string>
+    <string name="title_edit_product">修改商品</string>
     <string name="title_stoke_page">商品</string>
+    <string name="head_del">删除</string>
 
     <string name="choose_size">选择尺码</string>
     <string name="choose_color">选择颜色</string>
@@ -9,6 +11,8 @@
     <string name="del_product">删除商品</string>
     <string name="add_label">增加选项</string>
     <string name="del_label">删除选项</string>
+    <string name="btn_confirm_add">确认新建</string>
+    <string name="btn_confirm_modify">确认修改</string>
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
 </resources>

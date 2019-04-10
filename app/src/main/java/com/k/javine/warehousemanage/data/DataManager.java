@@ -15,7 +15,8 @@ public class DataManager {
 
     private static DataManager mInstance;
     private List<StockItem> mStockItemList = new ArrayList<>();
-    private List<Product> mProductList = new ArrayList<>();
+    private StockItem mTempStockItem;
+    private boolean mIsStockModify = false;
 
     private DataManager() {
 
@@ -33,6 +34,7 @@ public class DataManager {
     }
 
     public List<StockItem> getStockItems() {
+        mIsStockModify = false;
         if (mStockItemList.size() == 0) {
             StockItem item = new StockItem();
             item.setId("XY-1153");
@@ -41,22 +43,22 @@ public class DataManager {
             HashMap<String, TreeMap<String, Integer>> colorSizeMap = new HashMap<>();
 
             TreeMap<String, Integer> tempMap = new TreeMap<>();
-            tempMap.put("170", 15);
-            tempMap.put("175", 15);
-            tempMap.put("180", 10);
-            tempMap.put("185", 10);
-            tempMap.put("190", 10);
+            tempMap.put("70", 15);
+            tempMap.put("75", 15);
+            tempMap.put("80", 10);
+            tempMap.put("85", 10);
+            tempMap.put("90", 10);
             colorSizeMap.put("黑色", tempMap);
 
             tempMap.clear();
-            tempMap.put("170", 15);
-            tempMap.put("175", 15);
-            tempMap.put("180", 10);
-            tempMap.put("185", 10);
-            tempMap.put("190", 10);
+            tempMap.put("70", 15);
+            tempMap.put("75", 15);
+            tempMap.put("80", 10);
+            tempMap.put("85", 10);
+            tempMap.put("90", 10);
             colorSizeMap.put("红色", tempMap);
             item.setColors("黑色,红色");
-            item.setSizes("170,175,180,185,190");
+            item.setSizes("70,75,80,85,90");
 
             item.setColorSizeMap(colorSizeMap);
             item.setPrice(120.0f);
@@ -66,11 +68,11 @@ public class DataManager {
             item.setId("XY-1353");
             item.setName("欣页1353");
             tempMap = new TreeMap<>();
-            tempMap.put("170", 15);
-            tempMap.put("175", 15);
-            tempMap.put("180", 10);
-            tempMap.put("185", 10);
-            tempMap.put("190", 10);
+            tempMap.put("70", 15);
+            tempMap.put("75", 15);
+            tempMap.put("80", 10);
+            tempMap.put("85", 10);
+            tempMap.put("90", 10);
             colorSizeMap.put("黑色", tempMap);
 
             tempMap.clear();
@@ -83,7 +85,7 @@ public class DataManager {
 
             item.setColorSizeMap(colorSizeMap);
             item.setColors("黑色,红色");
-            item.setSizes("170,175,180,185,190");
+            item.setSizes("70,75,80,85,90");
             item.setPrice(120.0f);
 
             mStockItemList.add(item);
@@ -91,48 +93,48 @@ public class DataManager {
             item.setId("ZY-1358");
             item.setName("欣页1358");
             tempMap = new TreeMap<>();
-            tempMap.put("170", 15);
-            tempMap.put("175", 15);
-            tempMap.put("180", 10);
-            tempMap.put("185", 10);
-            tempMap.put("190", 10);
+            tempMap.put("70", 15);
+            tempMap.put("75", 15);
+            tempMap.put("80", 10);
+            tempMap.put("85", 10);
+            tempMap.put("90", 10);
             colorSizeMap.put("黑色", tempMap);
 
             tempMap.clear();
-            tempMap.put("170", 15);
-            tempMap.put("175", 15);
-            tempMap.put("180", 10);
-            tempMap.put("185", 10);
-            tempMap.put("190", 10);
+            tempMap.put("70", 15);
+            tempMap.put("75", 15);
+            tempMap.put("80", 10);
+            tempMap.put("85", 10);
+            tempMap.put("90", 10);
             colorSizeMap.put("红色", tempMap);
 
             item.setColorSizeMap(colorSizeMap);
             item.setColors("黑色,红色");
-            item.setSizes("170,175,180,185,190");
+            item.setSizes("70,75,80,85,90");
             item.setPrice(120.0f);
             mStockItemList.add(item);
             item = new StockItem();
             item.setId("Zz-110");
             item.setName("欣页110");
             tempMap = new TreeMap<>();
-            tempMap.put("170", 15);
-            tempMap.put("175", 15);
-            tempMap.put("180", 10);
-            tempMap.put("185", 10);
-            tempMap.put("190", 10);
+            tempMap.put("70", 15);
+            tempMap.put("75", 15);
+            tempMap.put("80", 10);
+            tempMap.put("85", 10);
+            tempMap.put("90", 10);
             colorSizeMap.put("黑色", tempMap);
 
             tempMap.clear();
-            tempMap.put("170", 15);
-            tempMap.put("175", 15);
-            tempMap.put("180", 10);
-            tempMap.put("185", 10);
-            tempMap.put("190", 10);
+            tempMap.put("70", 15);
+            tempMap.put("75", 15);
+            tempMap.put("80", 10);
+            tempMap.put("85", 10);
+            tempMap.put("90", 10);
             colorSizeMap.put("红色", tempMap);
 
             item.setColorSizeMap(colorSizeMap);
             item.setColors("黑色,红色");
-            item.setSizes("170,175,180,185,190");
+            item.setSizes("70,75,80,85,90");
             item.setPrice(120.0f);
             mStockItemList.add(item);
         }
@@ -140,34 +142,24 @@ public class DataManager {
     }
 
     public void delStockItem(StockItem item) {
+        mIsStockModify = true;
         mStockItemList.remove(item);
     }
 
     public void addStockItem(StockItem item) {
+        mIsStockModify = true;
         mStockItemList.add(item);
     }
 
-    public List<Product> getProducts() {
-        if (mProductList.isEmpty()) {
-            Product product = new Product();
-            product.setId("XY-1153");
-            product.setName("欣页");
-            product.setPrice(120.0f);
-            product.setSizes("70,75,80,85,90");
-            product.setColors("黑色,红色,白色,蓝色");
-        }
-        return mProductList;
-    }
-
-    public void delProduct(Product product) {
-        mProductList.remove(product);
-    }
-
-    public void addProduct(Product product) {
-        mProductList.add(product);
+    public void addStockItem(Product product) {
+        mIsStockModify = true;
         if (mStockItemList != null) {
             mStockItemList.add(convertProduct2StockItem(product));
         }
+    }
+
+    public boolean isStockModify() {
+        return mIsStockModify;
     }
 
     public StockItem convertProduct2StockItem(Product product) {
@@ -180,6 +172,16 @@ public class DataManager {
         stockItem.setColors(product.getColors());
         stockItem.setColorSizeOptions(product.getColors(), product.getSizes());
         return stockItem;
+    }
+
+    public void setTempStockItem(StockItem item) {
+        mTempStockItem = item;
+    }
+
+    public StockItem getTempStockItem() {
+        StockItem item = mTempStockItem;
+        mTempStockItem = null;
+        return item;
     }
 
 }

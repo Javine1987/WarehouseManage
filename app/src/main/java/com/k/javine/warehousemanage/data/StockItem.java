@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.k.javine.warehousemanage.utils.CommonUtils;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,7 +26,7 @@ import java.util.TreeMap;
  * @文件作者 : KuangYu
  * @创建时间 : 19-1-22
  */
-public class StockItem extends Product{
+public class StockItem extends Product implements Serializable{
     private HashMap<String, Integer> colorMap;
     private HashMap<String, TreeMap<String, Integer>> colorSizeMap;
     private int totalCount;

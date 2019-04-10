@@ -1,10 +1,15 @@
 package com.k.javine.warehousemanage;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +24,7 @@ import android.widget.Toast;
 import com.k.javine.warehousemanage.data.ConfigData;
 import com.k.javine.warehousemanage.data.DataManager;
 import com.k.javine.warehousemanage.data.Product;
+import com.k.javine.warehousemanage.data.StockItem;
 import com.k.javine.warehousemanage.utils.CommonUtils;
 import com.k.javine.warehousemanage.widget.LabelChooseView;
 
@@ -35,6 +41,9 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
     private View mColorContainer, mSizeContainer;
     private LabelChooseView mColorChooser, mSizeChooser;
 
+    private boolean mIsModify = false;
+    private StockItem mModifyItem;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +57,38 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
         mChooseColor.setOnClickListener(this);
         mChooseSize.setOnClickListener(this);
         mConfirmBtn.setOnClickListener(this);
+        if (mIsModify = getIntent().getBooleanExtra("isModify", false)) {
+            mModifyItem = DataManager.getInstance().getTempStockItem();
+            setTitle(R.string.title_edit_product);
+            initModifyView();
+        }
+    }
+
+    private void initModifyView() {
+        mNameEdit.setText(mModifyItem.getName());
+        mPriceEdit.setText(String.valueOf(mModifyItem.getPrice()));
+        mChooseColor.setText(mModifyItem.getColors());
+        mChooseSize.setText(mModifyItem.getSizes());
+        mConfirmBtn.setText(R.string.btn_confirm_modify);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowCustomEnabled(true);
+            TextView delView = new TextView(this);
+            delView.setText(R.string.head_del);
+            delView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+            delView.setTextColor(Color.WHITE);
+            delView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showDelProductDialog();
+                }
+            });
+            ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT,
+                    ActionBar.LayoutParams.WRAP_CONTENT, Gravity.END|Gravity.CENTER_VERTICAL);
+            params.rightMargin = CommonUtils.Dp2Px(this, 20);
+            delView.setLayoutParams(params);
+            actionBar.setCustomView(delView);
+        }
     }
 
 
@@ -81,6 +122,11 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
             });
             mColorChooser = mColorContainer.findViewById(R.id.labelView);
             mColorChooser.addAllLabels(ConfigData.getAllColorOptions());
+            if (mIsModify) {
+                mColorChooser.setSelectedLabels(mModifyItem.getColors());
+            }
+            // TODO: 19-4-11 给LabelChooseView设置监听
+
             mColorContainer.findViewById(R.id.iv_close).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -107,6 +153,11 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
             });
             mSizeChooser = mSizeContainer.findViewById(R.id.labelView);
             mSizeChooser.addAllLabels(ConfigData.getAllSizeOptions());
+            if (mIsModify) {
+                mSizeChooser.setSelectedLabels(mModifyItem.getSizes());
+            }
+            // TODO: 19-4-11 给LabelChooseView设置监听
+
             mSizeContainer.findViewById(R.id.iv_close).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -148,7 +199,9 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
         product.setPrice(Float.valueOf(mPriceEdit.getText().toString()));
         product.setColors(mChooseColor.getText().toString());
         product.setSizes(mChooseSize.getText().toString());
-        DataManager.getInstance().addProduct(product);
+        // TODO: 19-4-11 修改商品时，不走添加新商品逻辑
+
+        DataManager.getInstance().addStockItem(product);
         finish();
         Toast.makeText(this,"商品添加成功", Toast.LENGTH_LONG).show();
     }
@@ -160,5 +213,20 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
             Toast.makeText(this,"请" + view.getHint(), Toast.LENGTH_SHORT).show();
         }
         return isInvalid;
+    }
+
+    private void showDelProductDialog() {
+        new AlertDialog.Builder(this).setTitle(R.string.del_product)
+                .setMessage("删除商品后，将减少库存")
+                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DataManager.getInstance().delStockItem(mModifyItem);
+                        Toast.makeText(AddProductActivity.this, "删除成功！", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
     }
 }
