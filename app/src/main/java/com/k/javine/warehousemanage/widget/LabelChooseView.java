@@ -2,6 +2,7 @@ package com.k.javine.warehousemanage.widget;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -20,6 +21,8 @@ import com.google.android.flexbox.JustifyContent;
 import com.k.javine.warehousemanage.R;
 import com.k.javine.warehousemanage.utils.CommonUtils;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 /**
@@ -34,14 +37,29 @@ public class LabelChooseView extends FlexboxLayout {
     private ViewGroup.MarginLayoutParams mChildMarginParams;
     private int mChildMinWidth;
 
-    private AlertDialog mAddDialog, mDelDialog;
+    private AlertDialog mAddDialog;
     private EditText mAddEditText;
+    private TextView mLastSelectedView;
 
     private OnLabelChangeListener mChangeListener;
+    private OnSingleLabelSelectedListener mLabelSelectedListener;
+
+
+    @IntDef({SelectMode.MODE_MULTI, SelectMode.MODE_SINGLE})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface SelectMode {
+        int MODE_MULTI = 0;
+        int MODE_SINGLE = 1;
+    }
+    private @SelectMode int mSelectMode = SelectMode.MODE_MULTI;
 
     public interface OnLabelChangeListener {
         void onAddLabel(String label);
         void onDeleteLabel(String label);
+    }
+
+    public interface OnSingleLabelSelectedListener {
+        void onSingleLabelSelected(String label);
     }
 
     public LabelChooseView(Context context) {
@@ -67,7 +85,13 @@ public class LabelChooseView extends FlexboxLayout {
         int margin = CommonUtils.getDimension(getContext(), R.dimen.label_item_margin);
         mChildMarginParams.setMargins(margin, margin, margin, margin);
         mChildMinWidth = CommonUtils.getDimension(getContext(), R.dimen.label_item_min_width);
-        // 19-4-4 需要有个默认item,用来让用户添加颜色
+
+        if (mSelectMode == SelectMode.MODE_MULTI) {
+            addLastLabel();
+        }
+    }
+
+    private void addLastLabel() {
         TextView addItemView = getLabelItemView(getResources().getString(R.string.add_label), R.style.LabelAddStyle);
         addItemView.setTag(ADD_KEY);
         addItemView.setBackgroundResource(R.drawable.label_item_add_background);
@@ -76,6 +100,24 @@ public class LabelChooseView extends FlexboxLayout {
 
     public void setOnLabelChangeListener(OnLabelChangeListener listener) {
         mChangeListener = listener;
+    }
+
+    public void setOnSingleLabelSelectedListener(OnSingleLabelSelectedListener listener) {
+        mLabelSelectedListener = listener;
+    }
+
+    public void setSelectMode(@SelectMode int mode) {
+        if (mSelectMode != mode) {
+            if (mSelectMode == SelectMode.MODE_MULTI) {
+                TextView lastChild = (TextView) getChildAt(getChildCount()-1);
+                if (TextUtils.equals((String) lastChild.getTag(), ADD_KEY)) {
+                    removeView(lastChild);
+                }
+            } else if (mSelectMode == SelectMode.MODE_SINGLE) { //上一次是单选模式
+                addLastLabel();
+            }
+            mSelectMode = mode;
+        }
     }
 
     public void addLabelItem(String labelName) {
@@ -88,8 +130,12 @@ public class LabelChooseView extends FlexboxLayout {
         textView.setOnLongClickListener(mLongClickListener);
         textView.setSelected(isSelected);
 
-        int index = getChildCount() > 0 ? getChildCount() - 1 : 0; //最后一个item是新增入口
-        addView(textView, index, mChildMarginParams);
+        if (mSelectMode == SelectMode.MODE_MULTI) {
+            int index = getChildCount() > 0 ? getChildCount() - 1 : 0; //最后一个item是新增入口
+            addView(textView, index, mChildMarginParams);
+        } else if (mSelectMode == SelectMode.MODE_SINGLE) {
+            addView(textView, mChildMarginParams);
+        }
     }
 
     @NonNull
@@ -117,10 +163,23 @@ public class LabelChooseView extends FlexboxLayout {
     private OnClickListener mItemClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (v.getTag() != null && TextUtils.equals((String) v.getTag(), ADD_KEY)) {
-                showAddItemDialog();
-            } else {
-                v.setSelected(!v.isSelected());
+            if (mSelectMode == SelectMode.MODE_MULTI) {
+                if (v.getTag() != null && TextUtils.equals((String) v.getTag(), ADD_KEY)) {
+                    showAddItemDialog();
+                } else {
+                    v.setSelected(!v.isSelected());
+                }
+            } else if (mSelectMode == SelectMode.MODE_SINGLE){
+                if (mLastSelectedView != v && v instanceof TextView) {
+                    if (mLastSelectedView != null) {
+                        mLastSelectedView.setSelected(false);
+                    }
+                    v.setSelected(true);
+                    if (mLabelSelectedListener != null) {
+                        mLabelSelectedListener.onSingleLabelSelected(((TextView)v).getText().toString());
+                    }
+                    mLastSelectedView = (TextView) v;
+                }
             }
         }
     };
@@ -128,6 +187,9 @@ public class LabelChooseView extends FlexboxLayout {
     private OnLongClickListener mLongClickListener = new OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
+            if (mSelectMode == SelectMode.MODE_SINGLE) { //单选模式不支持删除
+                return false;
+            }
             if (v instanceof TextView) {
                 showDelItemDialog((TextView) v);
             }
@@ -140,6 +202,7 @@ public class LabelChooseView extends FlexboxLayout {
         if (mAddDialog == null) {
             initAddDialog();
         }
+        mAddEditText.setText("");
         mAddDialog.show();
     }
 
@@ -176,7 +239,7 @@ public class LabelChooseView extends FlexboxLayout {
     private void showDelItemDialog(final TextView itemView) {
 
         final String labelName = itemView.getText().toString();
-        mDelDialog = new AlertDialog.Builder(getContext())
+        new AlertDialog.Builder(getContext())
                 .setTitle(getResources().getString(R.string.del_label))
                 .setMessage(labelName)
                 .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
