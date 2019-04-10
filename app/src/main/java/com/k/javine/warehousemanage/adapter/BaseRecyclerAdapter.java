@@ -3,6 +3,7 @@ package com.k.javine.warehousemanage.adapter;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 /**
  * @文件描述 :
@@ -13,12 +14,6 @@ public abstract class BaseRecyclerAdapter<T extends RecyclerView.ViewHolder> ext
 
     public interface OnItemClickListener<T extends RecyclerView.ViewHolder>{
         void onItemClick(ViewGroup  parent, T holder, int position);
-    }
-
-    protected OnItemClickListener mItemClickListener;
-
-    public void setOnItemClickListener(OnItemClickListener listener){
-        mItemClickListener = listener;
     }
 
 

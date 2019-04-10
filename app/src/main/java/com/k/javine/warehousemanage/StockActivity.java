@@ -1,9 +1,11 @@
 package com.k.javine.warehousemanage;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,7 +39,7 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock);
-        setTitle("库存");
+        setTitle(R.string.title_stoke_page);
         mRecyclerView = findViewById(R.id.list);
         mAddView = findViewById(R.id.iv_add);
         mAddView.setOnClickListener(this);
@@ -60,7 +62,7 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private View mContainerView;
-    private View mCloseView;
+    private View mCloseView, mModifyView;
     private TextView mTitleView;
     private TextView mTotleView, mColorView;
     private Button mBtnEnter, mBtnOutput;
@@ -78,7 +80,6 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
     }
 
 
-
     private void updateWindowContent(StockItem item) {
         if (mContainerView == null) {
             mContainerView = LayoutInflater.from(this).inflate(R.layout.popup_window_layout, null);
@@ -90,11 +91,20 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
             mBtnOutput = mContainerView.findViewById(R.id.btn_output);
             mTotleView = mContainerView.findViewById(R.id.tv_totle);
             mColorView = mContainerView.findViewById(R.id.tv_color);
+            mModifyView = mContainerView.findViewById(R.id.ll_modify);
 
             mCloseView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mPopupWindow.dismiss();
+                }
+            });
+
+            mModifyView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO: 19-4-10 跳转到AddProductActivity修改产品属性,或者删除商品
+
                 }
             });
         }

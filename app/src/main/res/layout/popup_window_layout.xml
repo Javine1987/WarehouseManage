@@ -50,8 +50,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="库存:"
-                android:textSize="16sp"
+                android:textSize="@dimen/common_text_size"
                 android:textColor="@color/black" />
+
+            <LinearLayout
+                android:id="@+id/ll_modify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/label_one"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:text="修改商品"/>
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:rotation="90"
+                    android:src="@drawable/ic_arrow_up"/>
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_totle"
@@ -59,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/label_one"
-                android:textSize="16sp"
+                android:textSize="@dimen/common_text_size"
                 android:textColor="@color/black"
                 android:text="库存: " />
 
@@ -70,7 +93,7 @@
                 android:layout_below="@id/label_one"
                 android:layout_marginTop="16dp"
                 android:text="商品详情:"
-                android:textSize="16sp"
+                android:textSize="@dimen/common_text_size"
                 android:textColor="@color/black" />
 
             <TextView

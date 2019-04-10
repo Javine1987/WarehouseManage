@@ -24,6 +24,12 @@ public class StockAdapter extends BaseRecyclerAdapter<StockViewHolder>{
     private Context mContext;
     private ViewGroup mParent;
 
+    private OnItemClickListener<StockViewHolder> mItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener<StockViewHolder> listener){
+        mItemClickListener = listener;
+    }
+
     public StockAdapter(Context context) {
         mContext = context;
     }

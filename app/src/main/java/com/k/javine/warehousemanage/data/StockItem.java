@@ -25,9 +25,10 @@ import java.util.TreeMap;
  * @文件作者 : KuangYu
  * @创建时间 : 19-1-22
  */
-public class StockItem extends BaseItem{
+public class StockItem extends Product{
     private HashMap<String, Integer> colorMap;
     private HashMap<String, TreeMap<String, Integer>> colorSizeMap;
+    private int totalCount;
     private float totalMoney;
     private SpannableStringBuilder colorString;
     private String contentJson; // 用于保存到数据库: 该商品的颜色分布,尺寸分布
@@ -38,6 +39,16 @@ public class StockItem extends BaseItem{
 
     public void setTotalMoney(float totalMoney) {
         this.totalMoney = totalMoney;
+    }
+
+
+    public int getTotalCount() {
+        return totalCount;
+    }
+
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
     }
 
     public HashMap<String, Integer> getColorMap() {
@@ -72,7 +83,7 @@ public class StockItem extends BaseItem{
             colorMap.put(entry.getKey(), count);
             totalCount += count;
         }
-        totalMoney = totalCount * price;
+        totalMoney = totalCount * getPrice();
         contentJson = generateContentJsonStr();
     }
 

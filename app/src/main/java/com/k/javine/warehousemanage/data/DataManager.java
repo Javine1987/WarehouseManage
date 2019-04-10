@@ -55,6 +55,8 @@ public class DataManager {
             tempMap.put("185", 10);
             tempMap.put("190", 10);
             colorSizeMap.put("红色", tempMap);
+            item.setColors("黑色,红色");
+            item.setSizes("170,175,180,185,190");
 
             item.setColorSizeMap(colorSizeMap);
             item.setPrice(120.0f);
@@ -80,6 +82,8 @@ public class DataManager {
             colorSizeMap.put("红色", tempMap);
 
             item.setColorSizeMap(colorSizeMap);
+            item.setColors("黑色,红色");
+            item.setSizes("170,175,180,185,190");
             item.setPrice(120.0f);
 
             mStockItemList.add(item);
@@ -103,6 +107,8 @@ public class DataManager {
             colorSizeMap.put("红色", tempMap);
 
             item.setColorSizeMap(colorSizeMap);
+            item.setColors("黑色,红色");
+            item.setSizes("170,175,180,185,190");
             item.setPrice(120.0f);
             mStockItemList.add(item);
             item = new StockItem();
@@ -125,6 +131,8 @@ public class DataManager {
             colorSizeMap.put("红色", tempMap);
 
             item.setColorSizeMap(colorSizeMap);
+            item.setColors("黑色,红色");
+            item.setSizes("170,175,180,185,190");
             item.setPrice(120.0f);
             mStockItemList.add(item);
         }
@@ -168,6 +176,8 @@ public class DataManager {
         stockItem.setPrice(product.getPrice());
         stockItem.setId(product.getId());
         stockItem.setTotalCount(0);
+        stockItem.setSizes(product.getSizes());
+        stockItem.setColors(product.getColors());
         stockItem.setColorSizeOptions(product.getColors(), product.getSizes());
         return stockItem;
     }

@@ -17,6 +17,7 @@
             android:layout_centerVertical="true"
             android:text="选择颜色"
             android:gravity="center"
+            android:textSize="@dimen/common_text_size"
             android:textColor="@color/black"
             android:layout_marginLeft="35dp"
             android:layout_marginRight="35dp"/>

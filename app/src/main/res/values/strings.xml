@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">库存管理</string>
     <string name="title_add_product">新建商品</string>
+    <string name="title_stoke_page">商品</string>
 
     <string name="choose_size">选择尺码</string>
     <string name="choose_color">选择颜色</string>
 
+    <string name="del_product">删除商品</string>
     <string name="add_label">增加选项</string>
     <string name="del_label">删除选项</string>
     <string name="confirm">确定</string>
