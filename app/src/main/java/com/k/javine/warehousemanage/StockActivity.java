@@ -2,6 +2,7 @@ package com.k.javine.warehousemanage;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -35,12 +36,15 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
     private StockAdapter mAdapter;
     private PopupWindow mPopupWindow;
     private View mAddView;
+    private View mBackgroundView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock);
         setTitle(R.string.title_stoke_page);
         mRecyclerView = findViewById(R.id.list);
+        mBackgroundView = findViewById(R.id.background);
+        mBackgroundView.setOnClickListener(this);
         mAddView = findViewById(R.id.iv_add);
         mAddView.setOnClickListener(this);
         mAdapter = new StockAdapter(this);
@@ -80,6 +84,7 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
             mPopupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         }
         updateWindowContent(item);
+        mBackgroundView.setVisibility(View.VISIBLE);
         mPopupWindow.showAtLocation(findViewById(R.id.rootView), Gravity.BOTTOM, 0, 0);
     }
 
@@ -101,6 +106,7 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
                 @Override
                 public void onClick(View v) {
                     mPopupWindow.dismiss();
+                    mBackgroundView.setVisibility(View.GONE);
                 }
             });
 
@@ -111,6 +117,18 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
                     DataManager.getInstance().setTempStockItem(item);
                     intent.putExtra("isModify", true);
                     startActivity(intent);
+                }
+            });
+            mBtnEnter.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showEnterWindow(item);
+                }
+            });
+            mBtnOutput.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showOutputWindow(item);
                 }
             });
         }
@@ -133,5 +151,13 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
                 startActivity(intent);
                 break;
         }
+    }
+
+    private void showOutputWindow(StockItem item) {
+        // TODO: 19-4-17 弹出出库操作窗口
+    }
+
+    private void showEnterWindow(StockItem item) {
+        // TODO: 19-4-17 弹出入库操作窗口
     }
 }
