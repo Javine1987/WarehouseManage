@@ -237,7 +237,7 @@ public class LabelChooseView extends FlexboxLayout {
                         String label = mAddEditText.getText().toString();
                         if (!TextUtils.isEmpty(label)) {
                             addLabelItem(label, true);
-                            // TODO: 19-4-6 需要持久保存用户新增的选项
+
                             if (mChangeListener != null) {
                                 mChangeListener.onAddLabel(label);
                             }

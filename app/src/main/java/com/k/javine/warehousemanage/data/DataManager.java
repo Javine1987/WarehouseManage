@@ -37,6 +37,7 @@ public class DataManager {
         mIsStockModify = false;
         if (mStockItemList.size() == 0) {
             StockItem item = new StockItem();
+            item.setTimeStampId(System.currentTimeMillis());
             item.setId("XY-1153");
             item.setName("欣页1153");
 
@@ -65,6 +66,7 @@ public class DataManager {
             mStockItemList.add(item);
 
             item = new StockItem();
+            item.setTimeStampId(System.currentTimeMillis());
             item.setId("XY-1353");
             item.setName("欣页1353");
             tempMap = new TreeMap<>();
@@ -90,6 +92,7 @@ public class DataManager {
 
             mStockItemList.add(item);
             item = new StockItem();
+            item.setTimeStampId(System.currentTimeMillis());
             item.setId("ZY-1358");
             item.setName("欣页1358");
             tempMap = new TreeMap<>();
@@ -114,6 +117,7 @@ public class DataManager {
             item.setPrice(120.0f);
             mStockItemList.add(item);
             item = new StockItem();
+            item.setTimeStampId(System.currentTimeMillis());
             item.setId("Zz-110");
             item.setName("欣页110");
             tempMap = new TreeMap<>();
@@ -158,12 +162,22 @@ public class DataManager {
         }
     }
 
+    public void modifyStockItem(StockItem item) {
+        mIsStockModify = true;
+        // 19-4-16 find item, and save it
+        int index = mStockItemList.indexOf(item);
+        if (index > 0) {
+            mStockItemList.set(index, item);
+        }
+    }
+
     public boolean isStockModify() {
         return mIsStockModify;
     }
 
     public StockItem convertProduct2StockItem(Product product) {
         StockItem stockItem = new StockItem();
+        stockItem.setTimeStampId(product.getTimeStampId());
         stockItem.setName(product.getName());
         stockItem.setPrice(product.getPrice());
         stockItem.setId(product.getId());

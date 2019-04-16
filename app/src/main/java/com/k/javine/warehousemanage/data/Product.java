@@ -12,6 +12,15 @@ public class Product {
     private String colors; // 商品包括的颜色种类 例如: 黑色,蓝色,红色,白色
     private String desc;  // 商品描述
     private float price;  // 商品单价
+    private long timeStampId; //商品唯一id 时间戳
+
+    public long getTimeStampId() {
+        return timeStampId;
+    }
+
+    public void setTimeStampId(long timeStampId) {
+        this.timeStampId = timeStampId;
+    }
 
     public String getId() {
         return id;
@@ -64,8 +73,7 @@ public class Product {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Product) {
-            return TextUtils.equals(this.id, ((Product) obj).id)
-                    && TextUtils.equals(this.name, ((Product) obj).name);
+            return timeStampId == ((Product) obj).timeStampId;
         } else {
             return super.equals(obj);
         }

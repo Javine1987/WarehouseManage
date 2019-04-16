@@ -145,23 +145,26 @@ public class StockItem extends Product implements Serializable{
         return colorString;
     }
 
-    private String getSizeString(Map<String, Integer> sizeMap) {
-        StringBuilder sizeBuilder = new StringBuilder();
-        int i = 0;
+    private SpannableStringBuilder getSizeString(Map<String, Integer> sizeMap) {
+        SpannableStringBuilder sizeBuilder = new SpannableStringBuilder();
+        int i = 1;
         for (Map.Entry<String, Integer> entry : sizeMap.entrySet()) {
-            sizeBuilder.append("    ").append(entry.getKey())
-                    .append(" : ")
-                    .append(entry.getValue());
+            int startOffset = sizeBuilder.length();
+            sizeBuilder.append("    ").append(entry.getKey()).append(" : ");
+            int endOffset = sizeBuilder.length();
 
-            if (i % 2 == 0) {
+            sizeBuilder.append(String.valueOf(entry.getValue()));
+
+            if (i % 3 != 0) {
                 sizeBuilder.append("    ");
             } else {
                 sizeBuilder.append("\n");
             }
             i++;
+            sizeBuilder.setSpan(new ForegroundColorSpan(0xCC000000), startOffset, endOffset, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         sizeBuilder.append("\n\n");
-        return sizeBuilder.toString();
+        return sizeBuilder;
     }
 
     public String getContentJson() {
