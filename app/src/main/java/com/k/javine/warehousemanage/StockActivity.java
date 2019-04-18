@@ -1,13 +1,8 @@
 package com.k.javine.warehousemanage;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.k.javine.warehousemanage.adapter.BaseRecyclerAdapter;
 import com.k.javine.warehousemanage.adapter.StockAdapter;
@@ -26,6 +20,7 @@ import com.k.javine.warehousemanage.adapter.StockViewHolder;
 import com.k.javine.warehousemanage.data.DataManager;
 import com.k.javine.warehousemanage.data.StockItem;
 import com.k.javine.warehousemanage.utils.CommonUtils;
+import com.k.javine.warehousemanage.widget.LabelChooseView;
 
 /**
  * 库存管理页面
@@ -35,6 +30,7 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
     private RecyclerView mRecyclerView;
     private StockAdapter mAdapter;
     private PopupWindow mPopupWindow;
+    private PopupWindow mChangeWindow;
     private View mAddView;
     private View mBackgroundView;
     @Override
@@ -81,7 +77,7 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
             mPopupWindow.setOutsideTouchable(false);
             mPopupWindow.setAnimationStyle(R.style.PopupWindowAnimation);
             mPopupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-            mPopupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+            mPopupWindow.setHeight(2*CommonUtils.getScreenHeight(this)/3);
         }
         updateWindowContent(item);
         mBackgroundView.setVisibility(View.VISIBLE);
@@ -93,7 +89,6 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
         if (mContainerView == null) {
             mContainerView = LayoutInflater.from(this).inflate(R.layout.popup_window_layout, null);
             mPopupWindow.setContentView(mContainerView);
-            mPopupWindow.setHeight(2*CommonUtils.getScreenHeight(this)/3);
             mCloseView = mContainerView.findViewById(R.id.iv_close);
             mTitleView = mContainerView.findViewById(R.id.tv_title);
             mBtnEnter = mContainerView.findViewById(R.id.btn_input);
@@ -153,11 +148,60 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
+    private View mChangeView;
+    private LabelChooseView mSingleChooseView;
+    private TextView mChangeTitle, mResultView;
+
+    private void createChangeWindow() {
+        if (mChangeWindow == null) {
+            mChangeWindow = new PopupWindow(this);
+            mChangeWindow.setOutsideTouchable(false);
+            mChangeWindow.setAnimationStyle(R.style.PopupWindowAnimation);
+            mChangeWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+            mChangeWindow.setHeight(3*CommonUtils.getScreenHeight(this)/4);
+        }
+    }
+
     private void showOutputWindow(StockItem item) {
-        // TODO: 19-4-17 弹出出库操作窗口
+        createChangeWindow();
+        updateChangeWindowContent(item, true);
+        mChangeWindow.showAtLocation(findViewById(R.id.rootView), Gravity.BOTTOM, 0, 0);
+    }
+
+    private void updateChangeWindowContent(final StockItem item, boolean isOutput) {
+        if (mChangeView == null) {
+            mChangeView = LayoutInflater.from(this).inflate(R.layout.popup_output_layout, null);
+            mSingleChooseView = mChangeView.findViewById(R.id.color_choose);
+            mChangeWindow.setContentView(mChangeView);
+            mChangeTitle = mChangeView.findViewById(R.id.tv_title);
+            mResultView = mChangeView.findViewById(R.id.result);
+            mChangeView.findViewById(R.id.iv_close).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mChangeWindow.dismiss();
+                }
+            });
+        }
+        // TODO: 19-4-19 出库入库 会有不同的操作
+        if (isOutput) {
+            mChangeTitle.setText("商品出库");
+        } else {
+            mChangeTitle.setText("商品入库");
+        }
+        mSingleChooseView.removeAllViews();
+        mSingleChooseView.setSelectMode(LabelChooseView.SelectMode.MODE_SINGLE);
+        mSingleChooseView.setOnSingleLabelSelectedListener(new LabelChooseView.OnSingleLabelSelectedListener() {
+            @Override
+            public void onSingleLabelSelected(String label) {
+                mResultView.setText(String.valueOf(item.getColorMap().get(label)));
+            }
+        });
+        mSingleChooseView.addAllLabels(item.getColors());
     }
 
     private void showEnterWindow(StockItem item) {
-        // TODO: 19-4-17 弹出入库操作窗口
+        createChangeWindow();
+        updateChangeWindowContent(item, false);
+        mChangeWindow.showAtLocation(findViewById(R.id.rootView), Gravity.BOTTOM, 0, 0);
     }
 }

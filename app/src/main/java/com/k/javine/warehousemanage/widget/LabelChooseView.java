@@ -110,7 +110,7 @@ public class LabelChooseView extends FlexboxLayout {
         if (mSelectMode != mode) {
             if (mSelectMode == SelectMode.MODE_MULTI) {
                 TextView lastChild = (TextView) getChildAt(getChildCount()-1);
-                if (TextUtils.equals((String) lastChild.getTag(), ADD_KEY)) {
+                if (lastChild != null && TextUtils.equals((String) lastChild.getTag(), ADD_KEY)) {
                     removeView(lastChild);
                 }
             } else if (mSelectMode == SelectMode.MODE_SINGLE) { //上一次是单选模式
@@ -140,6 +140,7 @@ public class LabelChooseView extends FlexboxLayout {
 
     @NonNull
     private TextView getLabelItemView(String labelName, int styleId) {
+        // TODO: 19-4-19 需要封装一个LabelView， 支持显示小标
         TextView textView = new TextView(getContext());
         textView.setText(labelName);
         textView.setGravity(Gravity.CENTER);
@@ -157,6 +158,26 @@ public class LabelChooseView extends FlexboxLayout {
 
         for (int i =0; i < labelList.size(); i++) {
             addLabelItem(labelList.get(i));
+        }
+        if (mSelectMode == SelectMode.MODE_SINGLE) {
+            selectFirstLabel();
+        }
+    }
+
+    public void addAllLabels(String labels) {
+        String[] labelArray = labels.split(",");
+        for (String label : labelArray) {
+            addLabelItem(label);
+        }
+        if (mSelectMode == SelectMode.MODE_SINGLE) {
+            selectFirstLabel();
+        }
+    }
+
+    private void selectFirstLabel() {
+        if (getChildCount() > 0) {
+            TextView child = (TextView) getChildAt(0);
+            selectOneLabelView(child);
         }
     }
 
@@ -188,19 +209,23 @@ public class LabelChooseView extends FlexboxLayout {
                     }
                 }
             } else if (mSelectMode == SelectMode.MODE_SINGLE){
-                if (mLastSelectedView != v && v instanceof TextView) {
-                    if (mLastSelectedView != null) {
-                        mLastSelectedView.setSelected(false);
-                    }
-                    v.setSelected(true);
-                    if (mLabelSelectedListener != null) {
-                        mLabelSelectedListener.onSingleLabelSelected(((TextView)v).getText().toString());
-                    }
-                    mLastSelectedView = (TextView) v;
-                }
+                selectOneLabelView(v);
             }
         }
     };
+
+    private void selectOneLabelView(View v) {
+        if (mLastSelectedView != v && v instanceof TextView) {
+            if (mLastSelectedView != null) {
+                mLastSelectedView.setSelected(false);
+            }
+            v.setSelected(true);
+            if (mLabelSelectedListener != null) {
+                mLabelSelectedListener.onSingleLabelSelected(((TextView)v).getText().toString());
+            }
+            mLastSelectedView = (TextView) v;
+        }
+    }
 
     private OnLongClickListener mLongClickListener = new OnLongClickListener() {
         @Override

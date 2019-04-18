@@ -2,12 +2,14 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:shareInterpolator="false">
     <translate
-        android:duration="500"
+        android:duration="480"
         android:fromYDelta="100%p"
-        android:toYDelta="0" />
-    <alpha
-        android:duration="300"
-        android:fromAlpha="0"
-        android:toAlpha="1.0" />
+        android:toYDelta="0"
+        android:interpolator="@anim/move_in_translate"/>
+    <!--<alpha-->
+        <!--android:duration="480"-->
+        <!--android:fromAlpha="0"-->
+        <!--android:toAlpha="1.0"-->
+        <!--android:interpolator="@anim/move_in_alpha"/>-->
 
 </set>
