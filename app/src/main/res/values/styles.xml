@@ -26,6 +26,11 @@
         <item name="android:textColor">@color/promotion_bg_color</item>
     </style>
 
+    <style name="LabelCounterStyle" parent="android:TextAppearance">
+        <item name="android:textSize">9sp</item>
+        <item name="android:textColor">@drawable/label_counter_color</item>
+    </style>
+
     <style name="LauncherAnimation" parent="android:Animation.Activity">
         <!--搜索被启动时在newTask里面-->
         <item name="android:taskOpenEnterAnimation">@anim/move_in_enter</item>

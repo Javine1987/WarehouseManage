@@ -7,12 +7,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayout;
@@ -38,7 +36,7 @@ public class LabelChooseView extends FlexboxLayout {
 
     private AlertDialog mAddDialog;
     private EditText mAddEditText;
-    private TextView mLastSelectedView;
+    private LabelView mLastSelectedView;
 
     private OnLabelChangeListener mChangeListener;
     private OnSingleLabelSelectedListener mLabelSelectedListener;
@@ -92,7 +90,7 @@ public class LabelChooseView extends FlexboxLayout {
     }
 
     private void addLastLabel() {
-        TextView addItemView = getLabelItemView(getResources().getString(R.string.add_label), R.style.LabelAddStyle);
+        LabelView addItemView = getLabelItemView(getResources().getString(R.string.add_label), R.style.LabelAddStyle);
         addItemView.setTag(ADD_KEY);
         addItemView.setBackgroundResource(R.drawable.label_item_add_background);
         addView(addItemView, mChildMarginParams);
@@ -109,7 +107,7 @@ public class LabelChooseView extends FlexboxLayout {
     public void setSelectMode(@SelectMode int mode) {
         if (mSelectMode != mode) {
             if (mSelectMode == SelectMode.MODE_MULTI) {
-                TextView lastChild = (TextView) getChildAt(getChildCount()-1);
+                LabelView lastChild = (LabelView) getChildAt(getChildCount()-1);
                 if (lastChild != null && TextUtils.equals((String) lastChild.getTag(), ADD_KEY)) {
                     removeView(lastChild);
                 }
@@ -125,30 +123,29 @@ public class LabelChooseView extends FlexboxLayout {
     }
 
     public void addLabelItem(String labelName, boolean isSelected) {
-        TextView textView = getLabelItemView(labelName, R.style.LabelTextStyle);
-        textView.setBackgroundResource(R.drawable.label_item_background);
-        textView.setOnLongClickListener(mLongClickListener);
-        textView.setSelected(isSelected);
+        LabelView labelView = getLabelItemView(labelName, R.style.LabelTextStyle);
+        labelView.setBackgroundResource(R.drawable.label_item_background);
+        labelView.setOnLongClickListener(mLongClickListener);
+        labelView.setSelected(isSelected);
 
         if (mSelectMode == SelectMode.MODE_MULTI) {
             int index = getChildCount() > 0 ? getChildCount() - 1 : 0; //最后一个item是新增入口
-            addView(textView, index, mChildMarginParams);
+            addView(labelView, index, mChildMarginParams);
         } else if (mSelectMode == SelectMode.MODE_SINGLE) {
-            addView(textView, mChildMarginParams);
+            addView(labelView, mChildMarginParams);
         }
     }
 
     @NonNull
-    private TextView getLabelItemView(String labelName, int styleId) {
+    private LabelView getLabelItemView(String labelName, int styleId) {
         // TODO: 19-4-19 需要封装一个LabelView， 支持显示小标
-        TextView textView = new TextView(getContext());
-        textView.setText(labelName);
-        textView.setGravity(Gravity.CENTER);
-        textView.setMinWidth(mChildMinWidth);
-        textView.setPadding(15, 5, 15, 5);
-        textView.setTextAppearance(styleId);
-        textView.setOnClickListener(mItemClickListener);
-        return textView;
+        LabelView labelView = new LabelView(getContext());
+        labelView.setLabelName(labelName);
+        labelView.setMinWidth(mChildMinWidth);
+        labelView.setPadding(15, 5, 15, 5);
+        labelView.setTextStyle(styleId);
+        labelView.setOnClickListener(mItemClickListener);
+        return labelView;
     }
 
     public void addAllLabels(List<String> labelList) {
@@ -176,7 +173,7 @@ public class LabelChooseView extends FlexboxLayout {
 
     private void selectFirstLabel() {
         if (getChildCount() > 0) {
-            TextView child = (TextView) getChildAt(0);
+            LabelView child = (LabelView) getChildAt(0);
             selectOneLabelView(child);
         }
     }
@@ -187,8 +184,8 @@ public class LabelChooseView extends FlexboxLayout {
 
         for (String label : labelArray) {
             for (int i=0; i < count; i++) {
-                TextView child = (TextView) getChildAt(i);
-                if (TextUtils.equals(label, child.getText())) {
+                LabelView child = (LabelView) getChildAt(i);
+                if (TextUtils.equals(label, child.getLabelName())) {
                     child.setSelected(true);
                 }
             }
@@ -215,15 +212,15 @@ public class LabelChooseView extends FlexboxLayout {
     };
 
     private void selectOneLabelView(View v) {
-        if (mLastSelectedView != v && v instanceof TextView) {
+        if (mLastSelectedView != v && v instanceof LabelView) {
             if (mLastSelectedView != null) {
                 mLastSelectedView.setSelected(false);
             }
             v.setSelected(true);
             if (mLabelSelectedListener != null) {
-                mLabelSelectedListener.onSingleLabelSelected(((TextView)v).getText().toString());
+                mLabelSelectedListener.onSingleLabelSelected(((LabelView)v).getLabelName().toString());
             }
-            mLastSelectedView = (TextView) v;
+            mLastSelectedView = (LabelView) v;
         }
     }
 
@@ -233,8 +230,8 @@ public class LabelChooseView extends FlexboxLayout {
             if (mSelectMode == SelectMode.MODE_SINGLE) { //单选模式不支持删除
                 return false;
             }
-            if (v instanceof TextView) {
-                showDelItemDialog((TextView) v);
+            if (v instanceof LabelView) {
+                showDelItemDialog((LabelView) v);
             }
             return true;
         }
@@ -279,9 +276,9 @@ public class LabelChooseView extends FlexboxLayout {
                 .create();
     }
 
-    private void showDelItemDialog(final TextView itemView) {
+    private void showDelItemDialog(final LabelView itemView) {
 
-        final String labelName = itemView.getText().toString();
+        final String labelName = itemView.getLabelName().toString();
         new AlertDialog.Builder(getContext())
                 .setTitle(getResources().getString(R.string.del_label))
                 .setMessage(labelName)
@@ -303,8 +300,8 @@ public class LabelChooseView extends FlexboxLayout {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < size; i++) {
             View child = getChildAt(i);
-            if (child instanceof TextView && child.isSelected()) {
-                stringBuilder.append(((TextView) child).getText());
+            if (child instanceof LabelView && child.isSelected()) {
+                stringBuilder.append(((LabelView) child).getLabelName());
                 stringBuilder.append(",");
             }
         }
