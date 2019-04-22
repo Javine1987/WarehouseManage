@@ -17,6 +17,8 @@ public class LabelView extends FrameLayout {
 
     private TextView mNameView;
     private TextView mCounterView;
+    private int mCountNum = 0;
+    private boolean mIsEnableCounter = false;
 
     public LabelView(@NonNull Context context) {
         this(context, null);
@@ -49,7 +51,7 @@ public class LabelView extends FrameLayout {
         params.rightMargin = 4;
         params.topMargin = 4;
         addView(mCounterView, params);
-//        mCounterView.setVisibility(GONE);
+        mCounterView.setVisibility(GONE);
     }
 
     public void setLabelName(String name) {
@@ -78,5 +80,36 @@ public class LabelView extends FrameLayout {
         mNameView.setPadding(left, top, right, bottom);
     }
 
+    public void setCounterEnable(boolean isEnable) {
+        mIsEnableCounter = isEnable;
+        if (mIsEnableCounter && mCountNum > 0) {
+            mCounterView.setText(String.valueOf(mCountNum));
+            mCounterView.setVisibility(VISIBLE);
+        } else {
+            mCounterView.setVisibility(GONE);
+        }
+    }
+
+    public void incCounter() {
+        mCountNum ++;
+        if (mCountNum > 0) {
+            mCounterView.setVisibility(VISIBLE);
+        }
+        mCounterView.setText(String.valueOf(mCountNum));
+    }
+
+    public void decCounter() {
+        if (mCountNum > 0) {
+            mCountNum --;
+        }
+        mCounterView.setText(String.valueOf(mCountNum));
+        if (mCountNum == 0) {
+            mCounterView.setVisibility(GONE);
+        }
+    }
+
+    public void setCounterNumber(int number) {
+        mCountNum = number;
+    }
 
 }

@@ -21,6 +21,7 @@ import com.k.javine.warehousemanage.data.DataManager;
 import com.k.javine.warehousemanage.data.StockItem;
 import com.k.javine.warehousemanage.utils.CommonUtils;
 import com.k.javine.warehousemanage.widget.LabelChooseView;
+import com.k.javine.warehousemanage.widget.LabelView;
 
 /**
  * 库存管理页面
@@ -190,10 +191,11 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
         }
         mSingleChooseView.removeAllViews();
         mSingleChooseView.setSelectMode(LabelChooseView.SelectMode.MODE_SINGLE);
+        mSingleChooseView.setCounterEnable(true);
         mSingleChooseView.setOnSingleLabelSelectedListener(new LabelChooseView.OnSingleLabelSelectedListener() {
             @Override
-            public void onSingleLabelSelected(String label) {
-                mResultView.setText(String.valueOf(item.getColorMap().get(label)));
+            public void onSingleLabelSelected(LabelView label) {
+                mResultView.setText(String.valueOf(item.getColorMap().get(label.getLabelName().toString())));
             }
         });
         mSingleChooseView.addAllLabels(item.getColors());

@@ -33,6 +33,7 @@ public class LabelChooseView extends FlexboxLayout {
 
     private ViewGroup.MarginLayoutParams mChildMarginParams;
     private int mChildMinWidth;
+    private boolean mIsCounterEnable = false;
 
     private AlertDialog mAddDialog;
     private EditText mAddEditText;
@@ -57,7 +58,7 @@ public class LabelChooseView extends FlexboxLayout {
     }
 
     public interface OnSingleLabelSelectedListener {
-        void onSingleLabelSelected(String label);
+        void onSingleLabelSelected(LabelView labelView);
     }
 
     public LabelChooseView(Context context) {
@@ -91,6 +92,7 @@ public class LabelChooseView extends FlexboxLayout {
 
     private void addLastLabel() {
         LabelView addItemView = getLabelItemView(getResources().getString(R.string.add_label), R.style.LabelAddStyle);
+        addItemView.setCounterEnable(mIsCounterEnable);
         addItemView.setTag(ADD_KEY);
         addItemView.setBackgroundResource(R.drawable.label_item_add_background);
         addView(addItemView, mChildMarginParams);
@@ -118,6 +120,17 @@ public class LabelChooseView extends FlexboxLayout {
         }
     }
 
+    public void setCounterEnable(boolean isEnable) {
+        mIsCounterEnable = isEnable;
+        if (mSelectMode == SelectMode.MODE_MULTI) { // 多选模式不能显示计数
+            mIsCounterEnable = false;
+        }
+        int count = getChildCount();
+        for (int i=0; i < count; i++) {
+            ((LabelView)getChildAt(i)).setCounterEnable(mIsCounterEnable);
+        }
+    }
+
     public void addLabelItem(String labelName) {
         addLabelItem(labelName, false);
     }
@@ -127,6 +140,7 @@ public class LabelChooseView extends FlexboxLayout {
         labelView.setBackgroundResource(R.drawable.label_item_background);
         labelView.setOnLongClickListener(mLongClickListener);
         labelView.setSelected(isSelected);
+        labelView.setCounterEnable(mIsCounterEnable);
 
         if (mSelectMode == SelectMode.MODE_MULTI) {
             int index = getChildCount() > 0 ? getChildCount() - 1 : 0; //最后一个item是新增入口
@@ -138,7 +152,6 @@ public class LabelChooseView extends FlexboxLayout {
 
     @NonNull
     private LabelView getLabelItemView(String labelName, int styleId) {
-        // TODO: 19-4-19 需要封装一个LabelView， 支持显示小标
         LabelView labelView = new LabelView(getContext());
         labelView.setLabelName(labelName);
         labelView.setMinWidth(mChildMinWidth);
@@ -218,7 +231,7 @@ public class LabelChooseView extends FlexboxLayout {
             }
             v.setSelected(true);
             if (mLabelSelectedListener != null) {
-                mLabelSelectedListener.onSingleLabelSelected(((LabelView)v).getLabelName().toString());
+                mLabelSelectedListener.onSingleLabelSelected((LabelView)v);
             }
             mLastSelectedView = (LabelView) v;
         }
