@@ -3,6 +3,7 @@ package com.k.javine.warehousemanage.utils;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.github.promeg.pinyinhelper.Pinyin;
 
@@ -42,5 +43,12 @@ public class CommonUtils {
             idBuilder.append(anArray.charAt(0));
         }
         return idBuilder.toString();
+    }
+
+    public static void showInputMethod(Context context, View target) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.showSoftInput(target, 0);
+        }
     }
 }
