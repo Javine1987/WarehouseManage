@@ -18,7 +18,7 @@
             android:layout_centerVertical="true"
             android:text="商品出库"
             android:gravity="center"
-            android:textColor="@color/black"
+            android:textColor="@color/main_title_color"
             android:textSize="16sp"
             android:layout_marginLeft="35dp"
             android:layout_marginRight="35dp"/>
@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="45dp"
-        android:layout_marginBottom="70dp">
+        android:layout_marginBottom="45dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,43 +46,108 @@
             android:orientation="vertical"
             android:layout_margin="16dp">
 
+            <RelativeLayout
+                android:id="@+id/rl_info"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_label_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/main_title_color"
+                    android:text="名称："/>
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_toRightOf="@id/tv_label_name"
+                    android:textSize="16sp"
+                    android:textColor="@color/main_title_color"
+                    android:text="锌业1142"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_label_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:layout_below="@id/tv_label_name"
+                    android:layout_marginTop="10dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/main_title_color"
+                    android:text="价格："/>
+
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:layout_toRightOf="@id/tv_label_price"
+                    android:text="130"
+                    android:textSize="16sp"
+                    android:gravity="bottom"
+                    android:textColor="@color/guide_page_theme_color"
+                    android:layout_alignBottom="@id/tv_label_price"/>
+
+                <ImageView
+                    android:id="@+id/iv_edit_price"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_toRightOf="@id/tv_price"
+                    android:layout_alignTop="@id/tv_price"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/ic_edit_black_24dp"/>
+
+            </RelativeLayout>
+
             <TextView
                 android:id="@+id/label_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="颜色:"
+                android:layout_marginTop="10dp"
                 android:textSize="@dimen/common_text_size"
-                android:textColor="@color/black" />
+                android:textColor="@color/main_title_color" />
 
             <com.k.javine.warehousemanage.widget.LabelChooseView
                 android:id="@+id/color_choose"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <TextView
-                android:id="@+id/result"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="111"/>
-
-            <com.k.javine.warehousemanage.widget.CounterView
-                android:id="@+id/counter_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <Button
-                android:id="@+id/btn_output"
+            <ListView
+                android:id="@+id/change_list"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="20dp"
-                android:textColor="@color/white"
-                android:background="@drawable/edit_btn_background"
-                android:text="创建出库单" />
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
     </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/money"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="共计: 3000"
+            android:background="@color/translucent_30_black"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/btn_output"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:background="@color/guide_page_theme_color"
+            android:text="添加" />
+
+    </LinearLayout>
 
 </FrameLayout>

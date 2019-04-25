@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -151,7 +153,10 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
 
     private View mChangeView;
     private LabelChooseView mSingleChooseView;
-    private TextView mChangeTitle, mResultView;
+    private TextView mChangeTitle, mChangeName, mChangePrice, mChangeTotalMoney;
+    private Button mChangeBtn;
+    private ImageView mChangePriceImage;
+    private ListView mChangeListView;
 
     private void createChangeWindow() {
         if (mChangeWindow == null) {
@@ -175,7 +180,6 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
             mSingleChooseView = mChangeView.findViewById(R.id.color_choose);
             mChangeWindow.setContentView(mChangeView);
             mChangeTitle = mChangeView.findViewById(R.id.tv_title);
-            mResultView = mChangeView.findViewById(R.id.result);
             mChangeView.findViewById(R.id.iv_close).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -195,7 +199,7 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
         mSingleChooseView.setOnSingleLabelSelectedListener(new LabelChooseView.OnSingleLabelSelectedListener() {
             @Override
             public void onSingleLabelSelected(LabelView label) {
-                mResultView.setText(String.valueOf(item.getColorMap().get(label.getLabelName().toString())));
+                String result = (String.valueOf(item.getColorMap().get(label.getLabelName().toString())));
             }
         });
         mSingleChooseView.addAllLabels(item.getColors());
