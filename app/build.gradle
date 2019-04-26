@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+static def releaseTime() {
+    return new Date().format("yyyyMMdd-HHmm")
+}
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -12,8 +16,20 @@ android {
     }
     buildTypes {
         release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+
+            //这里修改apk文件名
+            outputFileName = "${rootProject.ext.appName}_${defaultConfig.versionName}_${releaseTime()}.apk"
         }
     }
 }
