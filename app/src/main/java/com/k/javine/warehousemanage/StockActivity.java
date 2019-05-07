@@ -66,6 +66,7 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
             loadData();
             if (mPopupWindow != null) {
                 mPopupWindow.dismiss();
+                mBackgroundView.setVisibility(View.GONE);
             }
         }
     }
