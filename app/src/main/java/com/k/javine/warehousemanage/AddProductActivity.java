@@ -27,6 +27,7 @@ import com.k.javine.warehousemanage.data.Product;
 import com.k.javine.warehousemanage.data.StockItem;
 import com.k.javine.warehousemanage.utils.CommonUtils;
 import com.k.javine.warehousemanage.widget.LabelChooseView;
+import com.k.javine.warehousemanage.widget.LabelView;
 
 /**
  * @文件描述 : 新增商品
@@ -249,7 +250,7 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
             DataManager.getInstance().addStockItem(product);
         }
         finish();
-        Toast.makeText(this,toast_string_id, Toast.LENGTH_LONG).show();
+        Toast.makeText(this,toast_string_id, Toast.LENGTH_SHORT).show();
     }
 
     private boolean checkInputInvalid(TextView view) {
@@ -278,7 +279,7 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
 
     private void checkDeleteOptions(boolean isColor, View labelView) {
         // TODO: 19-4-16 修改选项可能影响库存,需提示用户 - 2
-        String option = ((TextView)labelView).getText().toString();
+        String option = ((LabelView)labelView).getLabelName().toString();
         if (isColor) {
 
         } else {

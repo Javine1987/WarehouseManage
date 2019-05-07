@@ -64,7 +64,9 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
         super.onResume();
         if (DataManager.getInstance().isStockModify()) {
             loadData();
-            mPopupWindow.dismiss();
+            if (mPopupWindow != null) {
+                mPopupWindow.dismiss();
+            }
         }
     }
 
@@ -209,5 +211,17 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
         createChangeWindow();
         updateChangeWindowContent(item, false);
         mChangeWindow.showAtLocation(findViewById(R.id.rootView), Gravity.BOTTOM, 0, 0);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mPopupWindow != null) {
+            mPopupWindow.dismiss();
+        }
+
+        if (mChangeWindow != null) {
+            mChangeWindow.dismiss();
+        }
+        super.onDestroy();
     }
 }
