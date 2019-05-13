@@ -27,6 +27,7 @@ import java.util.TreeMap;
  * @创建时间 : 19-1-22
  */
 public class StockItem extends Product implements Serializable{
+    // TODO: 2019-05-14 应该定义一些对象来管理颜色和尺码，用纯数据结构操作起来不方便
     private HashMap<String, Integer> colorMap;
     private HashMap<String, TreeMap<String, Integer>> colorSizeMap;
     private int totalCount;

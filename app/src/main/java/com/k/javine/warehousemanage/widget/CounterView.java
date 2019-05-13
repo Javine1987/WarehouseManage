@@ -80,6 +80,7 @@ public class CounterView extends LinearLayout {
 
     public void setCountNumber(int countNumber) {
         mCountNum = countNumber;
+        setResultCount(String.valueOf(mCountNum));
     }
 
     private OnClickListener mClickListener = new OnClickListener() {
