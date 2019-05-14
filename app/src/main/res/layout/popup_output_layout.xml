@@ -105,20 +105,43 @@
                 android:id="@+id/label_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="颜色:"
-                android:layout_marginTop="10dp"
-                android:textSize="@dimen/common_text_size"
-                android:textColor="@color/main_title_color" />
+                android:text="颜色"
+                android:layout_marginTop="10dp" />
 
             <com.k.javine.warehousemanage.widget.LabelChooseView
                 android:id="@+id/color_choose"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <ListView
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="105dp"
+                    android:layout_height="wrap_content"
+                    android:text="尺码"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="库存"/>
+
+
+            </LinearLayout>
+
+
+            <com.k.javine.warehousemanage.widget.NestListView
                 android:id="@+id/change_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:dividerHeight="2px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:divider="#1a000000" />
 
         </LinearLayout>
 

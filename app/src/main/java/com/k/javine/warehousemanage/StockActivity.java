@@ -294,6 +294,7 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
                 ViewHolder holder = new ViewHolder();
                 holder.tv_size = convertView.findViewById(R.id.tv_item_size);
                 holder.cv_size = convertView.findViewById(R.id.cv_size);
+                holder.tv_total = convertView.findViewById(R.id.tv_item_total);
                 convertView.setTag(holder);
             }
             ViewHolder holder = (ViewHolder) convertView.getTag();
@@ -305,11 +306,12 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
             String sizeKey = mSizeList.get(position);
             Integer count = mSizeMap.get(sizeKey);
             holder.tv_size.setText(sizeKey);
-            holder.cv_size.setCountNumber(count!=null ? count : 0);
+            holder.tv_total.setText(String.valueOf(count));
         }
 
         class ViewHolder {
             TextView tv_size;
+            TextView tv_total;
             CounterView cv_size;
         }
     }
