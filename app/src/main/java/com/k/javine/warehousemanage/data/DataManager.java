@@ -45,44 +45,45 @@ public class DataManager {
 
             TreeMap<String, Integer> tempMap = new TreeMap<>();
             tempMap.put("70", 15);
-            tempMap.put("75", 15);
-            tempMap.put("80", 10);
+            tempMap.put("75", 14);
+            tempMap.put("80", 11);
             tempMap.put("85", 10);
             tempMap.put("90", 10);
-            colorSizeMap.put("黑色", tempMap);
+            colorSizeMap.put("绿色", tempMap);
 
             tempMap.clear();
             tempMap.put("70", 15);
-            tempMap.put("75", 15);
-            tempMap.put("80", 10);
+            tempMap.put("75", 13);
+            tempMap.put("80", 12);
             tempMap.put("85", 10);
             tempMap.put("90", 10);
             colorSizeMap.put("红色", tempMap);
-            item.setColors("黑色,红色");
+            item.setColors("绿色,红色");
             item.setSizes("70,75,80,85,90");
 
             item.setColorSizeMap(colorSizeMap);
             item.setPrice(120.0f);
             mStockItemList.add(item);
 
+            colorSizeMap = new HashMap<>();
             item = new StockItem();
             item.setTimeStampId(System.currentTimeMillis());
             item.setId("XY-1353");
             item.setName("欣页1353");
             tempMap = new TreeMap<>();
             tempMap.put("70", 15);
-            tempMap.put("75", 15);
-            tempMap.put("80", 10);
-            tempMap.put("85", 10);
-            tempMap.put("90", 10);
+            tempMap.put("75", 12);
+            tempMap.put("80", 11);
+            tempMap.put("85", 11);
+            tempMap.put("90", 11);
             colorSizeMap.put("黑色", tempMap);
 
             tempMap.clear();
-            tempMap.put("170", 15);
-            tempMap.put("175", 15);
-            tempMap.put("180", 10);
-            tempMap.put("185", 10);
-            tempMap.put("190", 10);
+            tempMap.put("170", 12);
+            tempMap.put("175", 12);
+            tempMap.put("180", 12);
+            tempMap.put("185", 12);
+            tempMap.put("190", 12);
             colorSizeMap.put("红色", tempMap);
 
             item.setColorSizeMap(colorSizeMap);
@@ -91,6 +92,8 @@ public class DataManager {
             item.setPrice(120.0f);
 
             mStockItemList.add(item);
+
+            colorSizeMap = new HashMap<>();
             item = new StockItem();
             item.setTimeStampId(System.currentTimeMillis());
             item.setId("ZY-1358");
@@ -116,6 +119,8 @@ public class DataManager {
             item.setSizes("70,75,80,85,90");
             item.setPrice(120.0f);
             mStockItemList.add(item);
+
+            colorSizeMap = new HashMap<>();
             item = new StockItem();
             item.setTimeStampId(System.currentTimeMillis());
             item.setId("Zz-110");

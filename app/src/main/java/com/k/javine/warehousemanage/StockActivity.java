@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,7 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
     private PopupWindow mChangeWindow;
     private View mAddView;
     private View mBackgroundView;
+    private StockItem mCurSelectItem;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,16 +133,17 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
             mBtnEnter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showEnterWindow(item);
+                    showEnterWindow();
                 }
             });
             mBtnOutput.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showOutputWindow(item);
+                    showOutputWindow();
                 }
             });
         }
+        mCurSelectItem = item;
         String title = item.getName() + " - " + item.getId();
         mTitleView.setText(title);
         mTotleView.setText(String.valueOf(item.getTotalCount()));
@@ -180,9 +183,9 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-    private void showOutputWindow(StockItem item) {
+    private void showOutputWindow() {
         createChangeWindow();
-        updateChangeWindowContent(item, true);
+        updateChangeWindowContent(mCurSelectItem, true);
         mChangeWindow.showAtLocation(findViewById(R.id.rootView), Gravity.BOTTOM, 0, 0);
     }
 
@@ -192,7 +195,6 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
             mSingleChooseView = mChangeView.findViewById(R.id.color_choose);
             mChangeWindow.setContentView(mChangeView);
             mChangeTitle = mChangeView.findViewById(R.id.tv_title);
-            // TODO: 2019-05-14 自定义嵌套的ListView，否则无法在ScrollView中展示数据
             mChangeListView = mChangeView.findViewById(R.id.change_list);
             mChangePriceImage = mChangeView.findViewById(R.id.iv_edit_price);
             mChangePrice =  mChangeView.findViewById(R.id.tv_price);
@@ -215,6 +217,7 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
         mSingleChooseView.setOnSingleLabelSelectedListener(new LabelChooseView.OnSingleLabelSelectedListener() {
             @Override
             public void onSingleLabelSelected(LabelView label) {
+                Log.d("Javine", "onLabelSelected " + label.getLabelName().toString());
                 mChangeAdapter.setSizeData(item.getColorSizeMap().get(label.getLabelName().toString()));
                 mChangeAdapter.notifyDataSetChanged();
             }
@@ -237,9 +240,9 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
         }
     };
 
-    private void showEnterWindow(StockItem item) {
+    private void showEnterWindow() {
         createChangeWindow();
-        updateChangeWindowContent(item, false);
+        updateChangeWindowContent(mCurSelectItem, false);
         mChangeWindow.showAtLocation(findViewById(R.id.rootView), Gravity.BOTTOM, 0, 0);
     }
 

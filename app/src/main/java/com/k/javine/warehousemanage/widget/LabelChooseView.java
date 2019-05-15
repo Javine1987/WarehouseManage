@@ -152,6 +152,7 @@ public class LabelChooseView extends FlexboxLayout {
 
     @NonNull
     private LabelView getLabelItemView(String labelName, int styleId) {
+        // TODO: 2019-05-16 缓存LabelView，以供复用，提高代码效率
         LabelView labelView = new LabelView(getContext());
         labelView.setLabelName(labelName);
         labelView.setMinWidth(mChildMinWidth);
@@ -166,6 +167,10 @@ public class LabelChooseView extends FlexboxLayout {
             return;
         }
 
+        if (getChildCount() > 0) {
+            removeAllViews();
+        }
+
         for (int i =0; i < labelList.size(); i++) {
             addLabelItem(labelList.get(i));
         }
@@ -175,6 +180,9 @@ public class LabelChooseView extends FlexboxLayout {
     }
 
     public void addAllLabels(String labels) {
+        if (getChildCount() > 0) {
+            removeAllViews();
+        }
         String[] labelArray = labels.split(",");
         for (String label : labelArray) {
             addLabelItem(label);
