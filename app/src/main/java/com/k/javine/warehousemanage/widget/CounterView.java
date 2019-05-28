@@ -150,12 +150,12 @@ public class CounterView extends LinearLayout {
     private void setResultCount(String count) {
         mResultView.setText(count);
         if (mCountListener != null) {
-            mCountListener.onCountChange(mCountNum);
+            mCountListener.onCountChange(this, mCountNum);
         }
     }
 
     public interface OnCountChangeLisnter {
-        void onCountChange(int count);
+        void onCountChange(CounterView view, int count);
     }
 
     public void setOnCountChangeListener(OnCountChangeLisnter listener) {

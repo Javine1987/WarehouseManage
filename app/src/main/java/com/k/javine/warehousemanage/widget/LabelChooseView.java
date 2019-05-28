@@ -167,10 +167,6 @@ public class LabelChooseView extends FlexboxLayout {
             return;
         }
 
-        if (getChildCount() > 0) {
-            removeAllViews();
-        }
-
         for (int i =0; i < labelList.size(); i++) {
             addLabelItem(labelList.get(i));
         }
@@ -180,9 +176,7 @@ public class LabelChooseView extends FlexboxLayout {
     }
 
     public void addAllLabels(String labels) {
-        if (getChildCount() > 0) {
-            removeAllViews();
-        }
+
         String[] labelArray = labels.split(",");
         for (String label : labelArray) {
             addLabelItem(label);

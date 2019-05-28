@@ -1,12 +1,15 @@
 package com.k.javine.warehousemanage;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -29,7 +33,9 @@ import com.k.javine.warehousemanage.widget.CounterView;
 import com.k.javine.warehousemanage.widget.LabelChooseView;
 import com.k.javine.warehousemanage.widget.LabelView;
 
+import java.text.BreakIterator;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -46,6 +52,9 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
     private View mAddView;
     private View mBackgroundView;
     private StockItem mCurSelectItem;
+    private AlertDialog mChangePriceDialog;
+    private EditText mPriceEditText;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -235,10 +244,53 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
                     break;
                 case R.id.tv_price:
                 case R.id.iv_edit_price:
+                    showChangePriceDialog();
                     break;
             }
         }
     };
+
+    private void showChangePriceDialog() {
+
+        if (mChangePriceDialog == null) {
+            initAddDialog();
+        }
+        mPriceEditText.setText("");
+        mChangePriceDialog.show();
+    }
+
+    private void initAddDialog() {
+        View container = LayoutInflater.from(this).inflate(R.layout.dialog_input_text_layout, null);
+        mPriceEditText = container.findViewById(R.id.edit_add_label);
+
+        mChangePriceDialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.add_label)
+                .setView(container)
+                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String price = mPriceEditText.getText().toString();
+                        if (!TextUtils.isEmpty(price)) {
+                            mChangePrice.setText(price);
+                            calculateTotalMoney();
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+    }
+
+    /**
+     * 按最新价格计算总金额
+     */
+    private void calculateTotalMoney() {
+
+    }
 
     private void showEnterWindow() {
         createChangeWindow();
@@ -261,12 +313,14 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
     class ChangeSizeOptionsAdapter extends BaseAdapter {
 
         private Map<String, Integer> mSizeMap;
+        private Map<String, Integer> mSelectedSizeMap;
         private List<String> mSizeList;
         private LayoutInflater mInflater;
 
         public ChangeSizeOptionsAdapter(Context context) {
             mInflater = LayoutInflater.from(context);
             mSizeMap = new TreeMap<>();
+            mSelectedSizeMap = new HashMap<>();
         }
 
 
@@ -297,6 +351,13 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
                 ViewHolder holder = new ViewHolder();
                 holder.tv_size = convertView.findViewById(R.id.tv_item_size);
                 holder.cv_size = convertView.findViewById(R.id.cv_size);
+                holder.cv_size.setOnCountChangeListener(new CounterView.OnCountChangeLisnter() {
+                    @Override
+                    public void onCountChange(CounterView view, int count) {
+                        String sizeKey = (String) view.getTag();
+                        changeCount(sizeKey, count);
+                    }
+                });
                 holder.tv_total = convertView.findViewById(R.id.tv_item_total);
                 convertView.setTag(holder);
             }
@@ -310,6 +371,12 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
             Integer count = mSizeMap.get(sizeKey);
             holder.tv_size.setText(sizeKey);
             holder.tv_total.setText(String.valueOf(count));
+            holder.cv_size.setTag(sizeKey);
+            int selectNum = mSelectedSizeMap.get(sizeKey) == null ? 0 : mSelectedSizeMap.get(sizeKey);
+        }
+
+        private void changeCount(String key, int count) {
+            mSelectedSizeMap.put(key, count);
         }
 
         class ViewHolder {
@@ -317,5 +384,13 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
             TextView tv_total;
             CounterView cv_size;
         }
+    }
+
+    /**
+     * 1. 需要计算当前的选中数量
+     * 2. 最后需要将选择明细提供给下个页面
+     */
+    interface OnChangeTotalListener{
+        void onChangeTotal(int count);
     }
 }
