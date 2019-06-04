@@ -33,7 +33,6 @@ import com.k.javine.warehousemanage.widget.CounterView;
 import com.k.javine.warehousemanage.widget.LabelChooseView;
 import com.k.javine.warehousemanage.widget.LabelView;
 
-import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -253,18 +252,18 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
     private void showChangePriceDialog() {
 
         if (mChangePriceDialog == null) {
-            initAddDialog();
+            initChangeDialog();
         }
         mPriceEditText.setText("");
         mChangePriceDialog.show();
     }
 
-    private void initAddDialog() {
+    private void initChangeDialog() {
         View container = LayoutInflater.from(this).inflate(R.layout.dialog_input_text_layout, null);
         mPriceEditText = container.findViewById(R.id.edit_add_label);
 
         mChangePriceDialog = new AlertDialog.Builder(this)
-                .setTitle(R.string.add_label)
+                .setTitle(R.string.change_price)
                 .setView(container)
                 .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                     @Override

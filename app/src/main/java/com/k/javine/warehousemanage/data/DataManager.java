@@ -41,7 +41,7 @@ public class DataManager {
             item.setId("XY-1153");
             item.setName("欣页1153");
 
-            HashMap<String, TreeMap<String, Integer>> colorSizeMap = new HashMap<>();
+            TotalHashMap<String, TreeMap<String, Integer>> colorSizeMap = new TotalHashMap<>();
 
             TreeMap<String, Integer> tempMap = new TreeMap<>();
             tempMap.put("70", 15);
@@ -65,7 +65,7 @@ public class DataManager {
             item.setPrice(120.0f);
             mStockItemList.add(item);
 
-            colorSizeMap = new HashMap<>();
+            colorSizeMap = new TotalHashMap<>();
             item = new StockItem();
             item.setTimeStampId(System.currentTimeMillis());
             item.setId("XY-1353");
@@ -93,7 +93,7 @@ public class DataManager {
 
             mStockItemList.add(item);
 
-            colorSizeMap = new HashMap<>();
+            colorSizeMap = new TotalHashMap<>();
             item = new StockItem();
             item.setTimeStampId(System.currentTimeMillis());
             item.setId("ZY-1358");
@@ -120,7 +120,7 @@ public class DataManager {
             item.setPrice(120.0f);
             mStockItemList.add(item);
 
-            colorSizeMap = new HashMap<>();
+            colorSizeMap = new TotalHashMap<>();
             item = new StockItem();
             item.setTimeStampId(System.currentTimeMillis());
             item.setId("Zz-110");

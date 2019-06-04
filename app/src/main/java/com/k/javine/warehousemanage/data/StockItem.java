@@ -29,7 +29,7 @@ import java.util.TreeMap;
 public class StockItem extends Product implements Serializable{
     // TODO: 2019-05-14 应该定义一些对象来管理颜色和尺码，用纯数据结构操作起来不方便
     private HashMap<String, Integer> colorMap;
-    private HashMap<String, TreeMap<String, Integer>> colorSizeMap;
+    private TotalHashMap<String, TreeMap<String, Integer>> colorSizeMap;
     private int totalCount;
     private float totalMoney;
     private SpannableStringBuilder colorString;
@@ -68,11 +68,11 @@ public class StockItem extends Product implements Serializable{
         colorMap.put(key, value);
     }
 
-    public HashMap<String, TreeMap<String, Integer>> getColorSizeMap() {
+    public TotalHashMap<String, TreeMap<String, Integer>> getColorSizeMap() {
         return colorSizeMap;
     }
 
-    public void setColorSizeMap(HashMap<String, TreeMap<String, Integer>> colorSizeMap) {
+    public void setColorSizeMap(TotalHashMap<String, TreeMap<String, Integer>> colorSizeMap) {
         this.colorSizeMap = colorSizeMap;
         if (colorMap == null) {
             colorMap = new HashMap<>();
@@ -85,6 +85,7 @@ public class StockItem extends Product implements Serializable{
             colorMap.put(entry.getKey(), count);
             totalCount += count;
         }
+        this.colorSizeMap.setTotal(totalCount);
         totalMoney = totalCount * getPrice();
         contentJson = generateContentJsonStr();
     }
@@ -95,7 +96,7 @@ public class StockItem extends Product implements Serializable{
         }
 
         colorMap = new HashMap<>();
-        colorSizeMap = new HashMap<>();
+        colorSizeMap = new TotalHashMap<>();
         TreeMap<String, Integer> sizeMap = new TreeMap<>();
         String[] sizeArray = sizeOptions.split(",");
         for (String size : sizeArray) {
@@ -122,9 +123,9 @@ public class StockItem extends Product implements Serializable{
         return gson.toJson(colorSizeMap);
     }
 
-    private HashMap<String, TreeMap<String, Integer>> getColorSizeMapFromJson(String jsonStr) {
+    private TotalHashMap<String, TreeMap<String, Integer>> getColorSizeMapFromJson(String jsonStr) {
         Gson gson = new Gson();
-        Type type = new TypeToken<HashMap<String, TreeMap<String, Integer>>>(){}.getType();
+        Type type = new TypeToken<TotalHashMap<String, TreeMap<String, Integer>>>(){}.getType();
         return gson.fromJson(jsonStr, type);
     }
 

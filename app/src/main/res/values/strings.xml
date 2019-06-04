@@ -16,6 +16,7 @@
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
 
+    <string name="change_price">修改单价</string>
     <string name="toast_add_success">商品添加成功</string>
     <string name="toast_modify_success">商品修改成功</string>
 </resources>
