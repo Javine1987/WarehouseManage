@@ -29,7 +29,7 @@ import java.util.TreeMap;
 public class StockItem extends Product implements Serializable{
     // TODO: 2019-05-14 应该定义一些对象来管理颜色和尺码，用纯数据结构操作起来不方便
     private HashMap<String, Integer> colorMap;
-    private TotalHashMap<String, TreeMap<String, Integer>> colorSizeMap;
+    private TotalHashMap<String, SelectTreeMap<String, Integer>> colorSizeMap;
     private int totalCount;
     private float totalMoney;
     private SpannableStringBuilder colorString;
@@ -53,6 +53,16 @@ public class StockItem extends Product implements Serializable{
         this.totalCount = totalCount;
     }
 
+    public int getTotalSelectCount() {
+        int totalSelected = 0;
+        for (Map.Entry<String, SelectTreeMap<String, Integer>> entry : colorSizeMap.entrySet()) {
+            if (entry != null && entry.getValue() != null) {
+                totalSelected += entry.getValue().getSelectCount();
+            }
+        }
+        return totalSelected;
+    }
+
     public HashMap<String, Integer> getColorMap() {
         return colorMap;
     }
@@ -68,11 +78,11 @@ public class StockItem extends Product implements Serializable{
         colorMap.put(key, value);
     }
 
-    public TotalHashMap<String, TreeMap<String, Integer>> getColorSizeMap() {
+    public TotalHashMap<String, SelectTreeMap<String, Integer>> getColorSizeMap() {
         return colorSizeMap;
     }
 
-    public void setColorSizeMap(TotalHashMap<String, TreeMap<String, Integer>> colorSizeMap) {
+    public void setColorSizeMap(TotalHashMap<String, SelectTreeMap<String, Integer>> colorSizeMap) {
         this.colorSizeMap = colorSizeMap;
         if (colorMap == null) {
             colorMap = new HashMap<>();
@@ -80,7 +90,7 @@ public class StockItem extends Product implements Serializable{
             colorMap.clear();
         }
         totalCount = 0;
-        for (Map.Entry<String, TreeMap<String, Integer>> entry : colorSizeMap.entrySet()) {
+        for (Map.Entry<String, SelectTreeMap<String, Integer>> entry : colorSizeMap.entrySet()) {
             int count = getMapValueCount(entry.getValue());
             colorMap.put(entry.getKey(), count);
             totalCount += count;
@@ -88,6 +98,16 @@ public class StockItem extends Product implements Serializable{
         this.colorSizeMap.setTotal(totalCount);
         totalMoney = totalCount * getPrice();
         contentJson = generateContentJsonStr();
+    }
+
+    public void resetSelectedState() {
+        if (colorSizeMap != null) {
+            for (Map.Entry<String, SelectTreeMap<String, Integer>> entry : colorSizeMap.entrySet()){
+                if (entry.getValue() != null) {
+                    entry.getValue().resetSelect();
+                }
+            }
+        }
     }
 
     public void setColorSizeOptions(String colorOptions, String sizeOptions) {
@@ -106,7 +126,7 @@ public class StockItem extends Product implements Serializable{
         String[] colorArray = colorOptions.split(",");
         for (String color : colorArray) {
             colorMap.put(color, 0);
-            colorSizeMap.put(color, new TreeMap<String, Integer>(sizeMap));
+            colorSizeMap.put(color, new SelectTreeMap<String, Integer>(sizeMap));
         }
     }
 
@@ -123,9 +143,9 @@ public class StockItem extends Product implements Serializable{
         return gson.toJson(colorSizeMap);
     }
 
-    private TotalHashMap<String, TreeMap<String, Integer>> getColorSizeMapFromJson(String jsonStr) {
+    private TotalHashMap<String, SelectTreeMap<String, Integer>> getColorSizeMapFromJson(String jsonStr) {
         Gson gson = new Gson();
-        Type type = new TypeToken<TotalHashMap<String, TreeMap<String, Integer>>>(){}.getType();
+        Type type = new TypeToken<TotalHashMap<String, SelectTreeMap<String, Integer>>>(){}.getType();
         return gson.fromJson(jsonStr, type);
     }
 

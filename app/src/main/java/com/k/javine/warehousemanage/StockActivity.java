@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +28,7 @@ import com.k.javine.warehousemanage.adapter.BaseRecyclerAdapter;
 import com.k.javine.warehousemanage.adapter.StockAdapter;
 import com.k.javine.warehousemanage.adapter.StockViewHolder;
 import com.k.javine.warehousemanage.data.DataManager;
+import com.k.javine.warehousemanage.data.SelectTreeMap;
 import com.k.javine.warehousemanage.data.StockItem;
 import com.k.javine.warehousemanage.utils.CommonUtils;
 import com.k.javine.warehousemanage.widget.CounterView;
@@ -37,7 +39,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * 库存管理页面
@@ -53,6 +54,7 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
     private StockItem mCurSelectItem;
     private AlertDialog mChangePriceDialog;
     private EditText mPriceEditText;
+    private boolean mIsSelectMode = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -180,6 +182,7 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
     private ImageView mChangePriceImage;
     private ListView mChangeListView;
     private ChangeSizeOptionsAdapter mChangeAdapter;
+    private boolean mIsOutput = false;
 
     private void createChangeWindow() {
         if (mChangeWindow == null) {
@@ -208,9 +211,11 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
             mChangePrice =  mChangeView.findViewById(R.id.tv_price);
             mChangePrice.setOnClickListener(mChangeViewClick);
             mChangePriceImage.setOnClickListener(mChangeViewClick);
+            mChangeTotalMoney = mChangeView.findViewById(R.id.money);
             mChangeView.findViewById(R.id.iv_close).setOnClickListener(mChangeViewClick);
         }
         // TODO: 19-4-19 出库入库 会有不同的操作
+        mIsOutput = isOutput;
         if (isOutput) {
             mChangeTitle.setText("商品出库");
         } else {
@@ -218,15 +223,18 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
         }
         mChangeAdapter = new ChangeSizeOptionsAdapter(this);
         mChangeListView.setAdapter(mChangeAdapter);
-
+        if (!mIsSelectMode) {
+            item.resetSelectedState();
+        }
         mSingleChooseView.removeAllViews();
         mSingleChooseView.setSelectMode(LabelChooseView.SelectMode.MODE_SINGLE);
         mSingleChooseView.setCounterEnable(true);
         mSingleChooseView.setOnSingleLabelSelectedListener(new LabelChooseView.OnSingleLabelSelectedListener() {
             @Override
             public void onSingleLabelSelected(LabelView label) {
-                Log.d("Javine", "onLabelSelected " + label.getLabelName().toString());
-                mChangeAdapter.setSizeData(item.getColorSizeMap().get(label.getLabelName().toString()));
+                String colorKey = label.getLabelName().toString();
+                Log.d("Javine", "onLabelSelected " + colorKey);
+                mChangeAdapter.setSizeData(item.getColorSizeMap().get(colorKey), colorKey);
                 mChangeAdapter.notifyDataSetChanged();
             }
         });
@@ -261,6 +269,7 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
     private void initChangeDialog() {
         View container = LayoutInflater.from(this).inflate(R.layout.dialog_input_text_layout, null);
         mPriceEditText = container.findViewById(R.id.edit_add_label);
+        mPriceEditText.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
 
         mChangePriceDialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.change_price)
@@ -288,7 +297,10 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
      * 按最新价格计算总金额
      */
     private void calculateTotalMoney() {
-
+        int totalMoney;
+        int num = mCurSelectItem.getTotalSelectCount();
+        totalMoney = num * Integer.valueOf(mChangePrice.getText().toString());
+        mChangeTotalMoney.setText("共计: "+String.valueOf(totalMoney));
     }
 
     private void showEnterWindow() {
@@ -311,21 +323,22 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
 
     class ChangeSizeOptionsAdapter extends BaseAdapter {
 
-        private Map<String, Integer> mSizeMap;
-        private Map<String, Integer> mSelectedSizeMap;
+        private SelectTreeMap<String, Integer> mSizeMap;
         private List<String> mSizeList;
         private LayoutInflater mInflater;
+        private String mColorKey;
 
         public ChangeSizeOptionsAdapter(Context context) {
             mInflater = LayoutInflater.from(context);
-            mSizeMap = new TreeMap<>();
-            mSelectedSizeMap = new HashMap<>();
+            mSizeMap = new SelectTreeMap<>();
         }
 
 
-        public void setSizeData(Map<String, Integer> datas) {
+        public void setSizeData(SelectTreeMap<String, Integer> datas, String colorKey) {
             mSizeMap = datas;
+            Log.d("Javine", "sizeMap = " + datas + ", selectMap = " + datas.getSelectedMap());
             mSizeList = new ArrayList<>(datas.keySet());
+            mColorKey = colorKey;
         }
 
         @Override
@@ -371,11 +384,20 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
             holder.tv_size.setText(sizeKey);
             holder.tv_total.setText(String.valueOf(count));
             holder.cv_size.setTag(sizeKey);
-            int selectNum = mSelectedSizeMap.get(sizeKey) == null ? 0 : mSelectedSizeMap.get(sizeKey);
+            Integer selectNum = mSizeMap.getSelectValue(sizeKey);
+            holder.cv_size.setCountNumber(selectNum == null ? 0 : selectNum);
+            if (mIsOutput) {
+                holder.cv_size.setMaxNumber(count);
+            } else {
+                holder.cv_size.setMaxNumber(-1);
+            }
+
         }
 
         private void changeCount(String key, int count) {
-            mSelectedSizeMap.put(key, count);
+            mSizeMap.selectKey(key, count);
+            mSingleChooseView.updateCounterNumber(mColorKey, mSizeMap.getSelectCount());
+            calculateTotalMoney();
         }
 
         class ViewHolder {
@@ -383,13 +405,5 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
             TextView tv_total;
             CounterView cv_size;
         }
-    }
-
-    /**
-     * 1. 需要计算当前的选中数量
-     * 2. 最后需要将选择明细提供给下个页面
-     */
-    interface OnChangeTotalListener{
-        void onChangeTotal(int count);
     }
 }

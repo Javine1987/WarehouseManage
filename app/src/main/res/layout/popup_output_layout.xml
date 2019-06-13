@@ -159,6 +159,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="共计: 3000"
+            android:textColor="@color/white"
             android:background="@color/translucent_30_black"
             android:layout_height="match_parent" />
 

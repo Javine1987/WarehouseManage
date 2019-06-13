@@ -23,6 +23,7 @@ public class CounterView extends LinearLayout {
     private final static int TAG_ADD = 3;
 
     private int mCountNum = 0;
+    private int mMaxCount = -1;
 
     private ImageView mAddView, mDecView;
     private TextView mResultView;
@@ -83,6 +84,10 @@ public class CounterView extends LinearLayout {
         setResultCount(String.valueOf(mCountNum));
     }
 
+    public void setMaxNumber(int max) {
+        mMaxCount = max;
+    }
+
     private OnClickListener mClickListener = new OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -98,7 +103,13 @@ public class CounterView extends LinearLayout {
                     showInputDialog();
                     break;
                 case TAG_ADD:
-                    mCountNum++;
+                    if (mMaxCount < 0) { //mMaxCount = -1, 为无效值
+                        mCountNum++;
+                    } else {
+                        if (mCountNum < mMaxCount) {
+                            mCountNum++;
+                        }
+                    }
                     setResultCount(String.valueOf(mCountNum));
                     break;
             }

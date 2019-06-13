@@ -141,7 +141,7 @@ public class LabelChooseView extends FlexboxLayout {
         labelView.setOnLongClickListener(mLongClickListener);
         labelView.setSelected(isSelected);
         labelView.setCounterEnable(mIsCounterEnable);
-
+        labelView.setTag(labelName);
         if (mSelectMode == SelectMode.MODE_MULTI) {
             int index = getChildCount() > 0 ? getChildCount() - 1 : 0; //最后一个item是新增入口
             addView(labelView, index, mChildMarginParams);
@@ -321,5 +321,14 @@ public class LabelChooseView extends FlexboxLayout {
             }
         }
         return stringBuilder.toString();
+    }
+
+    public void updateCounterNumber(String key, int count) {
+        if (mIsCounterEnable) {
+            LabelView labelView = findViewWithTag(key);
+            if (labelView != null) {
+                labelView.setCounterNumber(count);
+            }
+        }
     }
 }

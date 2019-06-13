@@ -41,9 +41,9 @@ public class DataManager {
             item.setId("XY-1153");
             item.setName("欣页1153");
 
-            TotalHashMap<String, TreeMap<String, Integer>> colorSizeMap = new TotalHashMap<>();
+            TotalHashMap<String, SelectTreeMap<String, Integer>> colorSizeMap = new TotalHashMap<>();
 
-            TreeMap<String, Integer> tempMap = new TreeMap<>();
+            SelectTreeMap<String, Integer> tempMap = new SelectTreeMap<>();
             tempMap.put("70", 15);
             tempMap.put("75", 14);
             tempMap.put("80", 11);
@@ -51,7 +51,7 @@ public class DataManager {
             tempMap.put("90", 10);
             colorSizeMap.put("绿色", tempMap);
 
-            tempMap.clear();
+            tempMap = new SelectTreeMap<>();
             tempMap.put("70", 15);
             tempMap.put("75", 13);
             tempMap.put("80", 12);
@@ -70,7 +70,7 @@ public class DataManager {
             item.setTimeStampId(System.currentTimeMillis());
             item.setId("XY-1353");
             item.setName("欣页1353");
-            tempMap = new TreeMap<>();
+            tempMap = new SelectTreeMap<>();
             tempMap.put("70", 15);
             tempMap.put("75", 12);
             tempMap.put("80", 11);
@@ -78,7 +78,7 @@ public class DataManager {
             tempMap.put("90", 11);
             colorSizeMap.put("黑色", tempMap);
 
-            tempMap.clear();
+            tempMap = new SelectTreeMap<>();
             tempMap.put("170", 12);
             tempMap.put("175", 12);
             tempMap.put("180", 12);
@@ -98,7 +98,7 @@ public class DataManager {
             item.setTimeStampId(System.currentTimeMillis());
             item.setId("ZY-1358");
             item.setName("欣页1358");
-            tempMap = new TreeMap<>();
+            tempMap = new SelectTreeMap<>();
             tempMap.put("70", 15);
             tempMap.put("75", 15);
             tempMap.put("80", 10);
@@ -106,7 +106,7 @@ public class DataManager {
             tempMap.put("90", 10);
             colorSizeMap.put("黑色", tempMap);
 
-            tempMap.clear();
+            tempMap = new SelectTreeMap<>();
             tempMap.put("70", 15);
             tempMap.put("75", 15);
             tempMap.put("80", 10);
@@ -125,7 +125,7 @@ public class DataManager {
             item.setTimeStampId(System.currentTimeMillis());
             item.setId("Zz-110");
             item.setName("欣页110");
-            tempMap = new TreeMap<>();
+            tempMap = new SelectTreeMap<>();
             tempMap.put("70", 15);
             tempMap.put("75", 15);
             tempMap.put("80", 10);
@@ -133,7 +133,7 @@ public class DataManager {
             tempMap.put("90", 10);
             colorSizeMap.put("黑色", tempMap);
 
-            tempMap.clear();
+            tempMap = new SelectTreeMap<>();
             tempMap.put("70", 15);
             tempMap.put("75", 15);
             tempMap.put("80", 10);

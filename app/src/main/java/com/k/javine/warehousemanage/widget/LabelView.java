@@ -110,6 +110,12 @@ public class LabelView extends FrameLayout {
 
     public void setCounterNumber(int number) {
         mCountNum = number;
+        mCounterView.setText(String.valueOf(mCountNum));
+        if (mCountNum > 0) {
+            mCounterView.setVisibility(VISIBLE);
+        } else {
+            mCounterView.setVisibility(GONE);
+        }
     }
 
 }
