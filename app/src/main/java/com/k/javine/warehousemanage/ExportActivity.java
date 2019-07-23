@@ -16,6 +16,7 @@ import com.k.javine.warehousemanage.data.DataManager;
 public class ExportActivity extends BaseActivity {
     RecyclerView recyclerView;
     ExportAdapter mAdapter;
+    boolean mIsOutput = false;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,5 +25,11 @@ public class ExportActivity extends BaseActivity {
         mAdapter = new ExportAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter);
+        mIsOutput = getIntent().getBooleanExtra("isOutput", false);
+        if (mIsOutput) {
+            setTitle("商品出库");
+        } else {
+            setTitle("商品入库");
+        }
     }
 }

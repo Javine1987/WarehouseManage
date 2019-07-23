@@ -213,6 +213,8 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
             mChangePriceImage.setOnClickListener(mChangeViewClick);
             mChangeTotalMoney = mChangeView.findViewById(R.id.money);
             mChangeView.findViewById(R.id.iv_close).setOnClickListener(mChangeViewClick);
+            mChangeBtn = mChangeView.findViewById(R.id.btn_output);
+            mChangeBtn.setOnClickListener(mChangeViewClick);
         }
         // TODO: 19-4-19 出库入库 会有不同的操作
         mIsOutput = isOutput;
@@ -233,7 +235,6 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onSingleLabelSelected(LabelView label) {
                 String colorKey = label.getLabelName().toString();
-                Log.d("Javine", "onLabelSelected " + colorKey);
                 mChangeAdapter.setSizeData(item.getColorSizeMap().get(colorKey), colorKey);
                 mChangeAdapter.notifyDataSetChanged();
             }
@@ -252,6 +253,11 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
                 case R.id.tv_price:
                 case R.id.iv_edit_price:
                     showChangePriceDialog();
+                    break;
+                case R.id.btn_output:
+                    Intent intent = new Intent(StockActivity.this, ExportActivity.class);
+                    intent.putExtra("isOutput", mIsOutput);
+                    startActivity(intent);
                     break;
             }
         }
