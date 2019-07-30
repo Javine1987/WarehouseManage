@@ -161,7 +161,7 @@ public class StockActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void loadData() {
-        mAdapter.setData(DataManager.getInstance().getStockItems());
+        mAdapter.setData(DataManager.getInstance().getStockItemsFromDB());
         mAdapter.notifyDataSetChanged();
     }
 

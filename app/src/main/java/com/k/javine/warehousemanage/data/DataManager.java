@@ -1,5 +1,9 @@
 package com.k.javine.warehousemanage.data;
 
+import android.content.Context;
+
+import com.k.javine.warehousemanage.data.db.ProductDbHelper;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,138 +37,29 @@ public class DataManager {
         return mInstance;
     }
 
-    public List<StockItem> getStockItems() {
+    public List<StockItem> getStockItemsFromDB() {
         mIsStockModify = false;
-        if (mStockItemList.size() == 0) {
-            StockItem item = new StockItem();
-            item.setTimeStampId(System.currentTimeMillis());
-            item.setId("XY-1153");
-            item.setName("欣页1153");
-
-            TotalHashMap<String, SelectTreeMap<String, Integer>> colorSizeMap = new TotalHashMap<>();
-
-            SelectTreeMap<String, Integer> tempMap = new SelectTreeMap<>();
-            tempMap.put("70", 15);
-            tempMap.put("75", 14);
-            tempMap.put("80", 11);
-            tempMap.put("85", 10);
-            tempMap.put("90", 10);
-            colorSizeMap.put("绿色", tempMap);
-
-            tempMap = new SelectTreeMap<>();
-            tempMap.put("70", 15);
-            tempMap.put("75", 13);
-            tempMap.put("80", 12);
-            tempMap.put("85", 10);
-            tempMap.put("90", 10);
-            colorSizeMap.put("红色", tempMap);
-            item.setColors("绿色,红色");
-            item.setSizes("70,75,80,85,90");
-
-            item.setColorSizeMap(colorSizeMap);
-            item.setPrice(120.0f);
-            mStockItemList.add(item);
-
-            colorSizeMap = new TotalHashMap<>();
-            item = new StockItem();
-            item.setTimeStampId(System.currentTimeMillis());
-            item.setId("XY-1353");
-            item.setName("欣页1353");
-            tempMap = new SelectTreeMap<>();
-            tempMap.put("70", 15);
-            tempMap.put("75", 12);
-            tempMap.put("80", 11);
-            tempMap.put("85", 11);
-            tempMap.put("90", 11);
-            colorSizeMap.put("黑色", tempMap);
-
-            tempMap = new SelectTreeMap<>();
-            tempMap.put("170", 12);
-            tempMap.put("175", 12);
-            tempMap.put("180", 12);
-            tempMap.put("185", 12);
-            tempMap.put("190", 12);
-            colorSizeMap.put("红色", tempMap);
-
-            item.setColorSizeMap(colorSizeMap);
-            item.setColors("黑色,红色");
-            item.setSizes("70,75,80,85,90");
-            item.setPrice(120.0f);
-
-            mStockItemList.add(item);
-
-            colorSizeMap = new TotalHashMap<>();
-            item = new StockItem();
-            item.setTimeStampId(System.currentTimeMillis());
-            item.setId("ZY-1358");
-            item.setName("欣页1358");
-            tempMap = new SelectTreeMap<>();
-            tempMap.put("70", 15);
-            tempMap.put("75", 15);
-            tempMap.put("80", 10);
-            tempMap.put("85", 10);
-            tempMap.put("90", 10);
-            colorSizeMap.put("黑色", tempMap);
-
-            tempMap = new SelectTreeMap<>();
-            tempMap.put("70", 15);
-            tempMap.put("75", 15);
-            tempMap.put("80", 10);
-            tempMap.put("85", 10);
-            tempMap.put("90", 10);
-            colorSizeMap.put("红色", tempMap);
-
-            item.setColorSizeMap(colorSizeMap);
-            item.setColors("黑色,红色");
-            item.setSizes("70,75,80,85,90");
-            item.setPrice(120.0f);
-            mStockItemList.add(item);
-
-            colorSizeMap = new TotalHashMap<>();
-            item = new StockItem();
-            item.setTimeStampId(System.currentTimeMillis());
-            item.setId("Zz-110");
-            item.setName("欣页110");
-            tempMap = new SelectTreeMap<>();
-            tempMap.put("70", 15);
-            tempMap.put("75", 15);
-            tempMap.put("80", 10);
-            tempMap.put("85", 10);
-            tempMap.put("90", 10);
-            colorSizeMap.put("黑色", tempMap);
-
-            tempMap = new SelectTreeMap<>();
-            tempMap.put("70", 15);
-            tempMap.put("75", 15);
-            tempMap.put("80", 10);
-            tempMap.put("85", 10);
-            tempMap.put("90", 10);
-            colorSizeMap.put("红色", tempMap);
-
-            item.setColorSizeMap(colorSizeMap);
-            item.setColors("黑色,红色");
-            item.setSizes("70,75,80,85,90");
-            item.setPrice(120.0f);
-            mStockItemList.add(item);
-        }
+        mStockItemList = ProductDbHelper.getInstance().queryAllStockItemFromDb();
         return mStockItemList;
     }
 
     public void delStockItem(StockItem item) {
         mIsStockModify = true;
         mStockItemList.remove(item);
+        ProductDbHelper.getInstance().deleteStockItemDb(item);
     }
 
     public void addStockItem(StockItem item) {
         mIsStockModify = true;
-        mStockItemList.add(item);
+        if (mStockItemList != null) {
+            mStockItemList.add(item);
+        }
+        ProductDbHelper.getInstance().saveStockItemDb(item);
     }
 
     public void addStockItem(Product product) {
-        mIsStockModify = true;
-        if (mStockItemList != null) {
-            mStockItemList.add(convertProduct2StockItem(product));
-        }
+        StockItem item = convertProduct2StockItem(product);
+        addStockItem(item);
     }
 
     public void modifyStockItem(StockItem item) {

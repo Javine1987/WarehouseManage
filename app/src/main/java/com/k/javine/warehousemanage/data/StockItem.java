@@ -82,7 +82,7 @@ public class StockItem extends Product implements Serializable{
         return colorSizeMap;
     }
 
-    public void setColorSizeMap(TotalHashMap<String, SelectTreeMap<String, Integer>> colorSizeMap) {
+    public void setColorSizeMap(TotalHashMap<String, SelectTreeMap<String, Integer>> colorSizeMap, boolean isGenerateJson) {
         this.colorSizeMap = colorSizeMap;
         if (colorMap == null) {
             colorMap = new HashMap<>();
@@ -97,7 +97,9 @@ public class StockItem extends Product implements Serializable{
         }
         this.colorSizeMap.setTotal(totalCount);
         totalMoney = totalCount * getPrice();
-        contentJson = generateContentJsonStr();
+        if (isGenerateJson) {
+            contentJson = generateContentJsonStr();
+        }
     }
 
     public void resetSelectedState() {
@@ -190,11 +192,19 @@ public class StockItem extends Product implements Serializable{
     }
 
     public String getContentJson() {
+        if (contentJson == null && colorSizeMap != null) {
+            contentJson = generateContentJsonStr();
+        }
         return contentJson;
     }
 
     public void setContentJson(String contentJson) {
-        this.contentJson = contentJson;
-        colorSizeMap = getColorSizeMapFromJson(contentJson);
+        if (contentJson == null) {
+            setColorSizeOptions(getColors(), getSizes());
+        } else {
+            this.contentJson = contentJson;
+            colorSizeMap = getColorSizeMapFromJson(contentJson);
+            setColorSizeMap(colorSizeMap, false);
+        }
     }
 }
