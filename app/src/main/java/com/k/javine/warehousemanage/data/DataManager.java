@@ -66,9 +66,11 @@ public class DataManager {
         mIsStockModify = true;
         // 19-4-16 find item, and save it
         int index = mStockItemList.indexOf(item);
+        item.setColorSizeOptions(item.getColors(), item.getSizes());
         if (index > 0) {
             mStockItemList.set(index, item);
         }
+        ProductDbHelper.getInstance().updateStockItemDb(item);
     }
 
     public boolean isStockModify() {

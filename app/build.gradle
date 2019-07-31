@@ -15,10 +15,21 @@ android {
         versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            keyAlias 'kuangyu'
+            keyPassword 'javine'
+            storeFile file('../keystore/keystore')
+            storePassword 'javine'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
         debug {
             minifyEnabled false
@@ -28,9 +39,11 @@ android {
 
     android.applicationVariants.all { variant ->
         variant.outputs.all {
-
-            //这里修改apk文件名
-            outputFileName = "${rootProject.ext.appName}_${defaultConfig.versionName}_${releaseTime()}.apk"
+            if (variant.buildType.name == 'release') {
+                variant.getPackageApplication().outputDirectory = new File(projectDir.absolutePath + File.separator + "release")
+                //这里修改apk文件名
+                outputFileName = "${rootProject.ext.appName}_${defaultConfig.versionName}_${releaseTime()}_release.apk"
+            }
         }
     }
 }

@@ -67,6 +67,10 @@ public class ProductDbHelper{
         getDaoSession().getStockEntityDao().delete(convertStockItemToEntity(item));
     }
 
+    public void updateStockItemDb(StockItem item) {
+        getDaoSession().getStockEntityDao().update(convertStockItemToEntity(item));
+    }
+
     public List<StockItem> queryAllStockItemFromDb() {
         List<StockEntity> entities = getDaoSession().getStockEntityDao()
                 .queryBuilder()

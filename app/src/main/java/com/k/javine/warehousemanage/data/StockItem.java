@@ -130,6 +130,7 @@ public class StockItem extends Product implements Serializable{
             colorMap.put(color, 0);
             colorSizeMap.put(color, new SelectTreeMap<String, Integer>(sizeMap));
         }
+        contentJson = generateContentJsonStr();
     }
 
     private Integer getMapValueCount(Map<String, Integer> map) {
